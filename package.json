@@ -1,0 +1,22 @@
+{
+  "name": "juliutils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch .js",
+    "docs": "documentation readme index.js --section=API"
+  },
+  "files": [
+    "index.js"
+  ],
+  "devDependencies": {
+    "documentation": "^12.1.1",
+    "eslint": "^6.3.0",
+    "eslint-plugin-jsdoc": "^15.8.4",
+    "jest": "^24.9.0"
+  },
+  "author": "Julia Rose",
+  "license": "MIT"
+}

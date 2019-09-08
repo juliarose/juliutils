@@ -1,0 +1,322 @@
+'use strict';
+
+const juliutils = require('../');
+
+it('yes (yes)', () => {
+    expect(juliutils.yes('yes')).toBe(true);
+});
+
+it('yes (yup)', () => {
+    expect(juliutils.yes('yup')).toBe(true);
+});
+
+it('yes (no)', () => {
+    expect(juliutils.yes('no')).toBe(false);
+});
+
+it('no (no)', () => {
+    expect(juliutils.no('no')).toBe(true);
+});
+
+it('no (nah)', () => {
+    expect(juliutils.no('nah')).toBe(true);
+});
+
+it('no (yes)', () => {
+    expect(juliutils.no('yes')).toBe(false);
+});
+
+it('withinNDaysOf (half a day behind, 1 day difference)', () => {
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    const date1 = new Date();
+    // a half a day behind date1
+    const date2 = new Date() - (ONE_DAY / 2);
+    
+    expect(juliutils.withinNDaysOf(date1, date2, 1)).toBe(true);
+});
+
+it('withinNDaysOf (2 days behind, 1 day difference)', () => {
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    const date1 = new Date();
+    // 2 days behind date1
+    const date2 = new Date() - (ONE_DAY * 2);
+    
+    expect(juliutils.withinNDaysOf(date1, date2, 1)).toBe(false);
+});
+
+it('printDate (July 7th, 2019)', () => {
+    const date = new Date(2019, 6, 7);
+    
+    expect(juliutils.printDate(date)).toBe('7/7/2019');
+});
+
+it('printCSVDate (July 7th, 2019)', () => {
+    const date = new Date(2019, 6, 7);
+    
+    expect(juliutils.printCSVDate(date)).toBe('2019/7/7');
+});
+
+it('omitEmpty', () => {
+    expect(juliutils.omitEmpty({
+        name: 'Coffee',
+        flavor: null
+    })).toEqual({
+        name: 'Coffee'
+    });
+});
+
+it('difference', () => {
+    expect(juliutils.difference([
+        1,
+        2,
+        3
+    ], [
+        1,
+        2
+    ])).toEqual([
+        3
+    ]);
+});
+
+it('partition', () => {
+    expect(juliutils.partition([
+        1,
+        2,
+        3
+    ], (n) => n % 2 === 0)).toEqual([
+        [
+            2
+        ],
+        [
+            1,
+            3
+        ]
+    ]);
+});
+
+it('mode ([1, 2, 2, 3])', () => {
+    expect(juliutils.mode([
+        1,
+        2,
+        2,
+        3
+    ])).toBe(2);
+});
+
+it('groupBy', () => {
+    expect(juliutils.groupBy([
+        {
+            name: 'Cat',
+            value: 1
+        },
+        {
+            name: 'Dog',
+            value: 1
+        },
+        {
+            name: 'Cat',
+            value: 2
+        }
+    ], 'name')).toEqual({
+        'Cat': [
+            {
+                name: 'Cat',
+                value: 1
+            },
+            {
+                name: 'Cat',
+                value: 2
+            }
+        ],
+        'Dog': [
+            {
+                name: 'Dog',
+                value: 1
+            }
+        ]
+    });
+});
+
+it('indexBy', () => {
+    expect(juliutils.indexBy([
+        {
+            name: 'Cat',
+            value: 1
+        },
+        {
+            name: 'Dog',
+            value: 1
+        },
+        {
+            name: 'Cat',
+            value: 2
+        }
+    ], 'name')).toEqual({
+        'Cat': {
+            name: 'Cat',
+            value: 1
+        },
+        'Dog': {
+            name: 'Dog',
+            value: 1
+        }
+    });
+});
+
+it('arrAverage', () => {
+    expect(juliutils.arrAverage([
+        1,
+        2,
+        3
+    ])).toBe(2);
+});
+
+it('flatten', () => {
+    expect(juliutils.flatten([
+        [
+            1
+        ],
+        [
+            2,
+            [
+                3
+            ]
+        ]
+    ])).toEqual([1, 2, [3]]);
+});
+
+it('flatten (deep)', () => {
+    expect(juliutils.flatten([
+        [
+            1
+        ],
+        [
+            2,
+            [
+                3
+            ]
+        ]
+    ], true)).toEqual([1, 2, 3]);
+});
+
+it('compact', () => {
+    expect(juliutils.compact([
+        1,
+        2,
+        null,
+        undefined,
+        '',
+        0
+    ])).toEqual([1, 2]);
+});
+
+it('range', () => {
+    expect(juliutils.range(1, 5)).toEqual([1, 2, 3, 4]);
+});
+
+it('randomString', () => {
+    expect(juliutils.randomString(5).length).toEqual(5);
+});
+
+it('pluck', () => {
+    expect(juliutils.pluck({
+        name: 'Cat',
+        value: 2
+    }, ['name'])).toEqual({
+        name: 'Cat'
+    });
+});
+
+it('createTree', () => {
+    const obj = {};
+    
+    juliutils.createTree(obj, ['fruit', 'color'], 'red'); 
+    
+    expect(obj).toEqual({
+        fruit: {
+            color: 'red'
+        }
+    });
+});
+
+it('transformObj', () => {
+    const result = juliutils.transformObj({
+        apple: 'Green',
+        orange: 'Orange',
+        cherry: {
+            color: 'Red'
+        }
+    }, {
+        keys: (key, level) => {
+            return level === 0 ? `fruit_${key}` : key;
+        },
+        values: (value) => {
+            return value.toUpperCase();
+        }
+    });
+    
+    expect(result).toEqual({
+        fruit_apple: 'GREEN',
+        fruit_orange: 'ORANGE',
+        fruit_cherry: {
+            color: 'RED'
+        }
+    });
+});
+
+it('deepClone', () => {
+    const original = {
+        apple: 'Green',
+        orange: 'Orange',
+        cherry: {
+            color: 'Red'
+        }
+    };
+    const clone = juliutils.deepClone(original);
+    
+    expect(original).toEqual(clone);
+});
+
+it('arrToKeys', () => {
+    expect(juliutils.arrToKeys(['a', 'b'], 0)).toEqual({ a: 0, b: 0 });
+});
+
+it('isNumber (2)', () => {
+    expect(juliutils.isNumber(2)).toEqual(true);
+});
+
+it('isNumber (null)', () => {
+    expect(juliutils.isNumber(null)).toEqual(false);
+});
+
+it('isNumber (Infinity)', () => {
+    expect(juliutils.isNumber(Infinity)).toEqual(false);
+});
+
+it('isNumber (\'\')', () => {
+    expect(juliutils.isNumber('')).toEqual(false);
+});
+
+it('truncate', () => {
+    expect(juliutils.truncate('There once was a cat', 10)).toBe('There once');
+});
+
+it('truncate (with trail)', () => {
+    expect(juliutils.truncate('There once was a cat', 10, '...')).toBe('There once...');
+});
+
+it('valuesAsKeys', () => {
+    expect(juliutils.valuesAsKeys({ a: 'apple' })).toEqual({ a: 'apple', 'apple': 'a' });
+});
+
+it('escapeCSV', () => {
+    expect(juliutils.escapeCSV('that "cat"')).toBe('"that ""cat"""');
+});
+
+it('escapeHTML', () => {
+    expect(juliutils.escapeHTML('<p>paragraph</p>')).toBe('&lt;p&gt;paragraph&lt;/p&gt;');
+});
+
+it('takeNRandom', () => {
+    expect(juliutils.takeNRandom([1, 2, 3, 4, 5], 3).length).toBe(3);
+});
