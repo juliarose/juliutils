@@ -7,7 +7,7 @@
 
 /**
  * Interprets whether a string means yes or not.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} str - Test string.
  * @returns {Boolean} No?
  *
@@ -35,7 +35,7 @@ function yes(str) {
 
 /**
  * Interprets whether a string means no or not.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} str - Test string.
  * @returns {Boolean} Yes?
  *
@@ -59,7 +59,7 @@ function no(str) {
 
 /**
  * Checks whether two dates are within N days of each other.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Date} date1 - First date.
  * @param {Date} date2 - Second date.
  * @param {Number} [days=1] - Number of days.
@@ -74,7 +74,7 @@ function withinNDaysOf(date1, date2, days = 1) {
 
 /**
  * Prints a date as a string in mm/dd/YYYY format.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Date} date - Date to print.
  * @param {String} [separator='/'] - Separator used between dates.
  * @returns {String} String of date.
@@ -89,7 +89,7 @@ function printDate(date, separator = '/') {
 
 /**
  * Prints a date for a CSV file in YYYY/mm/dd format.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Date} date - Date to print.
  * @returns {String} String of date to be inserted into a CSV cell.
  */
@@ -103,7 +103,7 @@ function printCSVDate(date) {
 
 /**
  * Omits keys with values that are empty from object.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} obj - Object to omit values from.
  * @returns {Object} Object with null, undefined, or empty string values omitted.
  */
@@ -121,7 +121,7 @@ function omitEmpty(obj) {
 
 /**
  * Gets unique values from array.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array of basic items (strings, numbers).
  * @returns {Array} Array with unique values.
  */
@@ -131,7 +131,7 @@ function uniq(arr) {
 
 /**
  * Gets difference between two arrays.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr1 - First array.
  * @param {Array} arr2 - Second array.
  * @returns {Array} Array with values removed.
@@ -144,7 +144,7 @@ function difference(arr1, arr2) {
 
 /**
  * Partitions array based on conditions.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array.
  * @param {Function} method - Function to satisfy.
  * @returns {Array} Partitioned array.
@@ -169,7 +169,7 @@ function partition(arr, method) {
 
 /**
  * Returns mode from array of numbers.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array of numbers.
  * @returns {(Number|undefined)} Mode of numbers, or undefined if array is empty.
  */
@@ -197,7 +197,7 @@ function mode(arr) {
 
 /**
  * Groups an array by value from key.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array.
  * @param {(String|Function)} key - Key to take value from.
  * @returns {Object} Object of groups.
@@ -217,7 +217,7 @@ function groupBy(arr, key) {
 
 /**
  * Indexes an array by value from key.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array.
  * @param {(String|Function)} key - Key to take value from.
  * @returns {Object} Indexed object.
@@ -239,7 +239,7 @@ function indexBy(arr, key) {
 
 /**
  * Averages an array of values.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} values - Array of values.
  * @returns {Number} Average of all values in array.
  */
@@ -258,7 +258,7 @@ function arrAverage(values) {
 
 /**
  * Flattens an array.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array to flatten.
  * @param {Boolean} [deep] - Recursive flatten?
  * @returns {Array} Flattened array.
@@ -279,7 +279,7 @@ function flatten(arr, deep) {
 
 /**
  * Removes all falsy values from an array.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array to compact.
  * @returns {Array} Compacted array.
  */
@@ -289,7 +289,7 @@ function compact(arr) {
 
 /**
  * Flattens and compacts array.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array to flatten and compact.
  * @param {Boolean} [deep] - Whether the array should be flattened recursively.
  * @returns {Array} Flattened and compacted array.
@@ -300,7 +300,7 @@ function flattenCompact(arr, deep) {
 
 /**
  * Create range of numbers from low to high.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Number} low - Low number.
  * @param {Number} high - High number.
  * @returns {Array} Array of numbers in range.
@@ -311,7 +311,7 @@ function range(low, high) {
 
 /**
  * Create a random string.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Number} [length=10] - Length of string.
  * @returns {String} Random string.
  */
@@ -332,7 +332,7 @@ function randomString(length) {
 
 /**
  * Picks keys from an object.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} object - Object to pick values from.
  * @param {Array} keys - Array of keys to pick.
  * @returns {Object} Object with picked keys.
@@ -354,7 +354,7 @@ const pickKeys = pluck;
  * Creates a tree within an object.
  *
  * Modifies the original object.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} obj - Object to build tree on.
  * @param {Array} tree - Tree to build on 'obj'.
  * @param {*} [ender] - Any value to use as the end value.
@@ -388,7 +388,7 @@ function createTree(obj, tree, ender) {
  * Recursively transforms key/values in object, including array values.
  *
  * Also can act as a basic deep clone method.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} obj - Object to transform.
  * @param {Object} [transforms={}] - Object containing transformation functions.
  * @param {Function} [transform.keys] - Function for transforming keys from 'obj'.
@@ -447,7 +447,7 @@ function transformObj(obj, transforms = {}, level = 0) {
  * Recursively clones an object's values.
  *
  * This will only clone objects containing basic values (e.g. Strings, numbers).
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} obj - Object.
  * @returns {Object} Cloned object.
  */
@@ -457,7 +457,7 @@ function deepClone(obj) {
 
 /**
  * Creates an object from an array of keys.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} keys - Array of keys.
  * @param {*} [value] - Value to assign to each key.
  * @returns {Object} Object with keys mapped from array.
@@ -477,7 +477,7 @@ function arrToKeys(keys, value) {
 
 /**
  * Checks if a value is a number or not.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {*} value - Value to test.
  * @returns {Boolean} Whether the value is a number or not.
  */
@@ -491,7 +491,7 @@ function isNumber(value) {
 
 /**
  * Truncates a string with option to add trail at end.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} string - String.
  * @param {Number} length - Length to trim to.
  * @param {String} [trail] - Trailing characters.
@@ -507,7 +507,7 @@ function truncate(string, length, trail) {
 
 /**
  * Chooses a form based on number.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} singular - Singular form.
  * @param {String} plural - Plural form.
  * @param {Number} value - Test value.
@@ -523,7 +523,7 @@ function basicPlural(singular, plural, value) {
 
 /**
  * Assigns values of object as keys.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Object} obj - Object.
  * @returns {Object} Object with values mapped as keys.
  *
@@ -543,7 +543,7 @@ function valuesAsKeys(obj) {
 
 /**
  * Escapes a cell value in CSV.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} str - String.
  * @returns {String} Escaped string.
  */
@@ -555,7 +555,7 @@ function escapeCSV(str) {
 
 /**
  * Escape a string in RegExp.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} str - String.
  * @returns {String} Escaped string.
  */
@@ -565,7 +565,7 @@ function escapeRegExp(str) {
 
 /**
  * Escapes text to use as strings in HTML format.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {String} text - Text to escape.
  * @returns {String} Escaped text.
  */
@@ -590,7 +590,7 @@ function escapeHTML(text) {
 
 /**
  * Picks a number of items from an array at random.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} arr - Array to pick items from.
  * @param {Number} num - Number of items to take.
  * @returns {Array} N number of values taken from array at random.
@@ -659,7 +659,7 @@ function takeNRandom(arr, num) {
 
 /**
  * Executes a series of Promises in sequence.
- * @memberof juliutils
+ * @memberOf juliutils
  * @param {Array} funcs - An array of functions where each function returns a Promise.
  * @returns {Promise<Array>} Promise that resolves with an array containing results from each resolved Promise in series.
  * @example
@@ -697,12 +697,13 @@ function promiseSeries(funcs) {
 
 /**
  * Delays a promise.
- * @memberof juliutils
+ * @memberOf juliutils
+ * @param {Number} time - Time in ms to delay.
  * @param {*} [value] - Value to pass to resolve.
- * @param {Number} [time=1000] - Time in ms to delay.
  * @returns {Promise} Promise that resolves after the given delay.
+ * @since 1.0.1 - The time parameter comes first.
  */
-function delayPromise(value, time) {
+function delayPromise(time, value) {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(value);
