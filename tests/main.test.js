@@ -320,3 +320,176 @@ it('escapeHTML', () => {
 it('takeNRandom', () => {
     expect(juliutils.takeNRandom([1, 2, 3, 4, 5], 3).length).toBe(3);
 });
+
+it('deepEquality (1 and 1 are equal)', () => {
+    const a = 1;
+    const b = 1;
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+
+it('deepEquality (1 and 2 are not equal)', () => {
+    const a = 1;
+    const b = 2;
+    
+    expect(juliutils.deepEqual(a, b)).toBe(false);
+});
+
+it('deepEquality (same dates are equal)', () => {
+    // we use a timestamp here
+    // otherwise there may be a delay between the date for the creation of each date
+    const timestamp = 1576208370992;
+    const a = new Date(timestamp);
+    const b = new Date(timestamp);
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+it('deepEquality (basic arrays are equal)', () => {
+    const a = [
+        1,
+        2,
+        'seed'
+    ];
+    const b = [
+        1,
+        2,
+        'seed'
+    ];
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+it('deepEquality (basic arrays in different order are not equal)', () => {
+    const a = [
+        1,
+        2,
+        'cat'
+    ];
+    const b = [
+        1,
+        'cat',
+        2
+    ];
+    
+    expect(juliutils.deepEqual(a, b)).toBe(false);
+});
+
+it('deepEquality (basic objects are equal)', () => {
+    const a = {
+        a: 1,
+        b: 'cat'
+    };
+    const b = {
+        a: 1,
+        b: 'cat'
+    };
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+// these still represent the same data
+it('deepEquality (basic objects with different key orders are equal)', () => {
+    const a = {
+        a: 1,
+        b: 'cat'
+    };
+    const b = {
+        b: 'cat',
+        a: 1
+    };
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+it('deepEquality (comprehensive comparison)', () => {
+    const timestamp = 1576208370992;
+    const a = {
+        a: null,
+        b: [
+            1,
+            2,
+            3
+        ],
+        c: new Date(timestamp),
+        d: {
+            a: 'cat\'s',
+            b: [
+                'love',
+                'milk'
+            ],
+            c: {
+                a: 'yes, they do'
+            }
+        }
+    };
+    const b = {
+        a: null,
+        b: [
+            1,
+            2,
+            3
+        ],
+        c: new Date(timestamp),
+        d: {
+            a: 'cat\'s',
+            b: [
+                'love',
+                'milk'
+            ],
+            c: {
+                a: 'yes, they do'
+            }
+        }
+    };
+    
+    expect(juliutils.deepEqual(a, b)).toBe(true);
+});
+
+// these still represent the same data
+it('without (object test)', () => {
+    const person = {
+        name: 'Zack',
+        residence: 'Tokyo',
+        favorite_drink: 'Root Beer'
+    };
+    const personWithoutKeys = juliutils.without(person, [
+        'residence',
+        'favorite_drink'
+    ]);
+    
+    expect(personWithoutKeys).toEqual({
+        name: 'Zack'
+    });
+});
+
+// these still represent the same data
+it('without (object test, excluded value passed as string)', () => {
+    const person = {
+        name: 'Zack',
+        residence: 'Tokyo',
+        favorite_drink: 'Root Beer'
+    };
+    const personWithoutKeys = juliutils.without(person, 'favorite_drink');
+    
+    expect(personWithoutKeys).toEqual({
+        name: 'Zack',
+        residence: 'Tokyo'
+    });
+});
+
+// these still represent the same data
+it('without (array test)', () => {
+    const person = [
+        'Zack',
+        'Tokyo',
+        'Root Beer'
+    ];
+    const personWithoutKeys = juliutils.without(person, [
+        'Zack',
+        'Root Beer'
+    ]);
+    
+    expect(personWithoutKeys).toEqual(['Tokyo']);
+});

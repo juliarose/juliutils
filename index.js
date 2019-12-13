@@ -13,8 +13,10 @@
  *
  * @example
  * yes('yes'); // true
+ 
  * @example
  * yes('yup'); // true
+ 
  * @example
  * yes('no'); // false
  */
@@ -41,8 +43,10 @@ function yes(str) {
  *
  * @example
  * no('no'); // true
+ 
  * @example
  * no('nope'); // true
+ 
  * @example
  * no('yes'); // false
  */
@@ -662,6 +666,7 @@ function takeNRandom(arr, num) {
  * @memberOf juliutils
  * @param {Array} funcs - An array of functions where each function returns a Promise.
  * @returns {Promise<Array>} Promise that resolves with an array containing results from each resolved Promise in series.
+ * 
  * @example
  * const urls = ['/url1', '/url2', '/url3'];
  * promiseSeries(urls.map(url => () => $.ajax(url)))
@@ -711,6 +716,146 @@ function delayPromise(time, value) {
     });
 }
 
+/**
+ * Checks if A is equal to B.
+ * @memberOf juliutils
+ * @param {*} a - Value A.
+ * @param {*} b - Value B.
+ * @returns {Boolean} Whether A is equal to B.
+ */
+function deepEqual(a, b) {
+    const isObject = (value) => {
+        return Boolean(
+            value !== null &&
+            typeof value === 'object'
+        );
+    };
+    
+    // firstly we check the most primitive test
+    if (a === b) {
+        return true;
+    } else if (Array.isArray(a)) {
+        return Boolean(
+            // b must also be an array
+            Array.isArray(b) &&
+            // both arrays must be the same length
+            a.length === b.length &&
+            a.every((value, i) => {
+                // order is important, too
+                // takes value at index in b
+                return deepEqual(value, b[i]);
+            })
+        );
+    } else if (a instanceof Date) {
+        // b isn't also a date
+        if (!(b instanceof Date)) {
+            return false;
+        }
+        
+        // check timestamp equality
+        return a.getTime() === b.getTime();
+    } else if (isObject(a)) {
+        // b isn't also an object
+        if (!isObject(b)) {
+            return false;
+        }
+        
+        // helper function for getting property names
+        const getProps = (obj) => {
+            // these must be sorted since both arrays must be equal
+            return Object.getOwnPropertyNames(obj).sort();
+        };
+        const propsA = getProps(a);
+        const propsB = getProps(b)
+        // checks that all properties match
+        // I found this to be slightly faster than the array.every option
+        /*
+        propsA.every((key) => {
+           // matching values in each object
+           return deepEqual(a[key], b[key]);
+        })
+        */;
+        const sameValues = (a, b, props) => {
+            for (let i = 0; i < props.length; i++) {
+                const key = props[i];
+                const valuesAreEqual = deepEqual(a[key], b[key]);
+                
+                if (!valuesAreEqual) {
+                    return false;
+                }
+            }
+            
+            return true;
+        };
+        
+        return Boolean(
+            // the length of properties is the same in each array
+            propsA.length === propsB.length &&
+            // check that the property names of each object are equal
+            deepEqual(propsA, propsB) &&
+            // check that all values are the same
+            sameValues(a, b, propsA)
+        );
+    }
+    
+    // all tests have failed
+    return false;
+}
+
+/**
+ * Removes elements from an object or array by value.
+ * @memberOf juliutils
+ * @param {(Object|Array)} item - Item to process. 
+ * @param {(*)} value - Value or array of values to remove from item.
+ * @returns {(Object|Array)} Object or array without the given values.
+ * 
+ * @example
+ * without({ name: 'cat', color: 'orange' }, ['orange]); // { name: 'cat' }
+ 
+ * @example
+ * without(['cat', 'orange'], ['orange]); // ['cat']
+ 
+ * @example
+ * // or using just a string
+ * without(['cat', 'orange'], 'orange); // ['cat']
+ */
+function without(item, value) {
+    const valueIsArray =  Array.isArray(value);
+    const doesNotMatch = (element) => {
+        if (valueIsArray) {
+            return !value.some((valueElement) => {
+                return deepEqual(element, valueElement);
+            });
+        }
+        
+        return !deepEqual(element, value);
+    };
+    
+    if (Array.isArray(item)) {
+        return item.filter(doesNotMatch);
+    }
+    
+    const itemDoesNotHaveKey = (key) => {
+        if (valueIsArray) {
+            // key is not in array of values
+            return value.indexOf(key) === -1;
+        }
+        
+        return key !== value;
+    };
+    // takes values to remove from 'item' and adds them to a new object
+    const recomposeItem = (newItem, key) => {
+        newItem[key] = item[key];
+        
+        return newItem;
+    };
+    
+    return Object
+        .getOwnPropertyNames(item)
+        .filter(itemDoesNotHaveKey)
+        .reduce(recomposeItem, {});
+}
+
 module.exports = {
     yes,
     no,
@@ -745,5 +890,7 @@ module.exports = {
     escapeHTML,
     takeNRandom,
     promiseSeries,
-    delayPromise
+    delayPromise,
+    deepEqual,
+    without
 };
