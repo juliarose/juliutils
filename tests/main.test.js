@@ -447,7 +447,6 @@ it('deepEquality (comprehensive comparison)', () => {
     expect(juliutils.deepEqual(a, b)).toBe(true);
 });
 
-// these still represent the same data
 it('without (object test)', () => {
     const person = {
         name: 'Zack',
@@ -464,7 +463,6 @@ it('without (object test)', () => {
     });
 });
 
-// these still represent the same data
 it('without (object test, excluded value passed as string)', () => {
     const person = {
         name: 'Zack',
@@ -479,7 +477,6 @@ it('without (object test, excluded value passed as string)', () => {
     });
 });
 
-// these still represent the same data
 it('without (array test)', () => {
     const person = [
         'Zack',
