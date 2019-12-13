@@ -81,6 +81,11 @@ My personal collection of utility functions.
     -   [Examples](#examples-7)
 -   [delayPromise](#delaypromise)
     -   [Parameters](#parameters-32)
+-   [deepEqual](#deepequal)
+    -   [Parameters](#parameters-33)
+-   [without](#without)
+    -   [Parameters](#parameters-34)
+    -   [Examples](#examples-8)
 
 ## juliutils
 
@@ -526,3 +531,40 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 **Meta**
 
 -   **since**: 1.0.1 - The time parameter comes first.
+
+## deepEqual
+
+Checks if A is equal to B.
+
+### Parameters
+
+-   `a` **any** Value A.
+-   `b` **any** Value B.
+
+Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether A is equal to B.
+
+## without
+
+Removes elements from an object or array by value.
+
+### Parameters
+
+-   `item` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array))** Item to process.
+-   `value` **(any)** Value or array of values to remove from item.
+
+### Examples
+
+```javascript
+without({ name: 'cat', color: 'orange' }, ['orange]); // { name: 'cat' }
+```
+
+```javascript
+without(['cat', 'orange'], ['orange]); // ['cat']
+```
+
+```javascript
+// or using just a string
+without(['cat', 'orange'], 'orange); // ['cat']
+```
+
+Returns **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array without the given values.
