@@ -574,41 +574,24 @@ Returns **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ## shorten
 
-<<<<<<< HEAD
-Shortens a sentence-like string without breaking the last word.
-=======
 Shortens a sentence-like string without cutting off the final word.
->>>>>>> v1.0.3
 
 ### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String to shorten.
-<<<<<<< HEAD
--   `maxLength` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Maximum length for the string.
--   `seperator` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [RegExp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp))** The character to split at. Also used to join words together. If a RegExp is given, the join string will be a space. (optional, default `' '`)
-=======
 -   `maxLength` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Max length of string.
 -   `seperator` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp))** Word seperator. If a RegExp is given, words will be seperated by a space. (optional, default `' '`)
->>>>>>> v1.0.3
 
 ### Examples
 
 ```javascript
-<<<<<<< HEAD
-shorten('some string to shorten', 12);
-// 'some string'
-```
-
-```javascript
-// using a different seperator
-=======
 shorten('that cat is fat', 8);
 // 'that cat'
 ```
 
 ```javascript
 // custom seperator
->>>>>>> v1.0.3
+
 shorten('123x456x789', 8, 'x');
 // '123x456'
 ```

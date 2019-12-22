@@ -492,29 +492,6 @@ it('without (array test)', () => {
 });
 
 it('shorten', () => {
-<<<<<<< HEAD
-    const str = 'Some string to shorten';
-    const maxLength = 20;
-    const shortened = juliutils.shorten(str, maxLength);
-    
-    expect(shortened).toBe('Some string to');
-});
-
-it('shorten (max length well beyond string length)', () => {
-    const str = 'Some string to shorten';
-    const maxLength = 100;
-    const shortened = juliutils.shorten(str, maxLength);
-    
-    expect(shortened).toBe(str);
-});
-
-it('shorten (maxLength index ends at the end of a word)', () => {
-    const str = 'Some string to shorten';
-    const maxLength = 18;
-    const shortened = juliutils.shorten(str, maxLength);
-    
-    expect(shortened).toBe('Some string to');
-=======
     const str = 'Some cats drink root beer.';
     const maxLength = 12;
     const shortened = juliutils.shorten(str, maxLength);
@@ -544,5 +521,4 @@ it('shorten (custom seperator)', () => {
     const shortened = juliutils.shorten(str, maxLength, 'x');
     
     expect(shortened).toBe('123x456');
->>>>>>> v1.0.3
 });
