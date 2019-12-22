@@ -490,3 +490,35 @@ it('without (array test)', () => {
     
     expect(personWithoutKeys).toEqual(['Tokyo']);
 });
+
+it('shorten', () => {
+    const str = 'Some cats drink root beer.';
+    const maxLength = 12;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Some cats');
+});
+
+it('shorten (on index of last trimmed word', () => {
+    const str = 'Some cats drink root beer.';
+    const maxLength = 9;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Some cats');
+});
+
+it('shorten (double spaces', () => {
+    const str = 'Some  cats  drink  root  beer.';
+    const maxLength = 12;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Some  cats');
+});
+
+it('shorten (custom seperator)', () => {
+    const str = '123x456x789';
+    const maxLength = 8;
+    const shortened = juliutils.shorten(str, maxLength, 'x');
+    
+    expect(shortened).toBe('123x456');
+});

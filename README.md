@@ -86,6 +86,9 @@ My personal collection of utility functions.
 -   [without](#without)
     -   [Parameters](#parameters-34)
     -   [Examples](#examples-8)
+-   [shorten](#shorten)
+    -   [Parameters](#parameters-35)
+    -   [Examples](#examples-9)
 
 ## juliutils
 
@@ -568,3 +571,28 @@ without(['cat', 'orange'], 'orange); // ['cat']
 ```
 
 Returns **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array without the given values.
+
+## shorten
+
+Shortens a sentence-like string without cutting off the final word.
+
+### Parameters
+
+-   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String to shorten.
+-   `maxLength` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Max length of string.
+-   `seperator` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp))** Word seperator. If a RegExp is given, words will be seperated by a space. (optional, default `' '`)
+
+### Examples
+
+```javascript
+shorten('that cat is fat', 8);
+// 'that cat'
+```
+
+```javascript
+// custom seperator
+shorten('123x456x789', 8, 'x');
+// '123x456'
+```
+
+Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Shortened string.
