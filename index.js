@@ -856,6 +856,58 @@ function without(item, value) {
         .reduce(recomposeItem, {});
 }
 
+/**
+ * Shortens a sentence-like string without breaking the last word.
+ * @memberOf juliutils
+ * @param {String} str - String to shorten.
+ * @param {Number} maxLength - Maximum length for the string.
+ * @param {(String|RegExp)} [seperator=' '] - The character to split at. Also used to join words together. If a RegExp is given, the join string will be a space.
+ * @returns {String} Shortened string.
+ *
+ * @example
+ * shorten('some string to shorten', 12);
+ * // 'some string'
+ *
+ * @example
+ * // using a different seperator
+ * shorten('123x456x789', 8, 'x');
+ * // '123x456'
+ */
+function shorten(str, maxLength, seperator = ' ') {
+    // string is already short enough
+    if (str.length <= maxLength) {
+        return str;
+    }
+    
+    // split name by seperator
+    const words = str.split(seperator);
+    const seperatorChar = typeof seperator === 'string' ? seperator : ' ';
+    const seperatorCharLength = seperatorChar.length;
+    let totalLength = 0;
+    let endIndex = 0;
+    
+    for (let i = 0; i < words.length; i++) {
+        const wordLength = words[i].length;
+        // get the length with the current word and add the length of seperator characters to it
+        const currentLength = (totalLength + wordLength) + (i * seperatorCharLength);
+        
+        if (currentLength > maxLength) {
+            // the length has been exceeded
+            break;
+        }
+        
+        // re-assign
+        totalLength = currentLength;
+        endIndex = i;
+    }
+    
+    return words
+        // take off the words that would cause the string to exceed the max length
+        .splice(0, endIndex + 1)
+        // then join them together with the seperator
+        .join(seperatorChar);
+}
+
 module.exports = {
     yes,
     no,
@@ -892,5 +944,6 @@ module.exports = {
     promiseSeries,
     delayPromise,
     deepEqual,
-    without
+    without,
+    shorten
 };

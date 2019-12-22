@@ -490,3 +490,27 @@ it('without (array test)', () => {
     
     expect(personWithoutKeys).toEqual(['Tokyo']);
 });
+
+it('shorten', () => {
+    const str = 'Some string to shorten';
+    const maxLength = 20;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Some string to');
+});
+
+it('shorten (max length well beyond string length)', () => {
+    const str = 'Some string to shorten';
+    const maxLength = 100;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe(str);
+});
+
+it('shorten (maxLength index ends at the end of a word)', () => {
+    const str = 'Some string to shorten';
+    const maxLength = 18;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Some string to');
+});
