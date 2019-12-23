@@ -870,7 +870,6 @@ function without(item, value) {
  *
  * @example
  * // custom seperator
- 
  * shorten('123x456x789', 8, 'x');
  * // '123x456'
  */
@@ -886,11 +885,12 @@ function shorten(str, maxLength, seperator = ' ') {
     const seperatorStr = typeof seperator === 'string' ? seperator : ' ';
     const seperatorStrLength = seperatorStr.length;
     let endIndex = 0;
-    let totalLength = 0;
+    // total length of words added
+    let totalWordLength = 0;
     
     for (let i = 0; i < words.length; i++) {
         const wordLength = words[i].length;
-        const currentLength = (totalLength + wordLength) + (seperatorStrLength * i);
+        const currentLength = (totalWordLength + wordLength) + (seperatorStrLength * i);
         
         if (currentLength > maxLength) {
             break;
@@ -898,8 +898,8 @@ function shorten(str, maxLength, seperator = ' ') {
         
         // update the index
         endIndex = i;
-        // update the total length
-        totalLength = currentLength;
+        // add the length of the current word to the total length of all words so far
+        totalWordLength += wordLength;
     }
     
     return words
@@ -907,6 +907,23 @@ function shorten(str, maxLength, seperator = ' ') {
         .splice(0, endIndex + 1)
         // then join them together with the seperator
         .join(seperatorStr);
+}
+
+/**
+ * Rounds number to N decimal places.
+ * @memberOf juliutils
+ * @param {Number} value - Value to round.
+ * @param {Number} places - Places to round to.
+ * @returns {Number} Rounded number.
+ *
+ * @example
+ * roundN(4.344, 1)
+ * // 4.3
+ */
+function roundN(value, places) {
+    const multiplier = Math.pow(10, places);
+    
+    return Math.round(value * multiplier) / multiplier;
 }
 
 module.exports = {
@@ -946,5 +963,6 @@ module.exports = {
     delayPromise,
     deepEqual,
     without,
-    shorten
+    shorten,
+    roundN
 };

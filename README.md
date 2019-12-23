@@ -89,6 +89,9 @@ My personal collection of utility functions.
 -   [shorten](#shorten)
     -   [Parameters](#parameters-35)
     -   [Examples](#examples-9)
+-   [roundN](#roundn)
+    -   [Parameters](#parameters-36)
+    -   [Examples](#examples-10)
 
 ## juliutils
 
@@ -591,9 +594,26 @@ shorten('that cat is fat', 8);
 
 ```javascript
 // custom seperator
-
 shorten('123x456x789', 8, 'x');
 // '123x456'
 ```
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Shortened string.
+
+## roundN
+
+Rounds number to N decimal places.
+
+### Parameters
+
+-   `value` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Value to round.
+-   `places` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Places to round to.
+
+### Examples
+
+```javascript
+roundN(4.344, 1)
+// 4.3
+```
+
+Returns **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rounded number.

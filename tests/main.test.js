@@ -512,7 +512,7 @@ it('shorten (double spaces', () => {
     const maxLength = 12;
     const shortened = juliutils.shorten(str, maxLength);
     
-    expect(shortened).toBe('Some  cats');
+    expect(shortened).toBe('Some  cats ');
 });
 
 it('shorten (custom seperator)', () => {
@@ -521,4 +521,19 @@ it('shorten (custom seperator)', () => {
     const shortened = juliutils.shorten(str, maxLength, 'x');
     
     expect(shortened).toBe('123x456');
+});
+
+it('shorten (long string)', () => {
+    const str = 'Crunches that you do on the ground when you touch your toes';
+    const maxLength = 20;
+    const shortened = juliutils.shorten(str, maxLength);
+    
+    expect(shortened).toBe('Crunches that you do');
+});
+
+it('roundN', () => {
+    const number = 3.4333;
+    const rounded = juliutils.roundN(number, 2);
+    
+    expect(rounded).toBe(3.43);
 });
