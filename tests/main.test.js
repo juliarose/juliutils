@@ -46,44 +46,137 @@ it('withinNDaysOf (2 days behind, 1 day difference)', () => {
 
 it('printDate (July 7th, 2019)', () => {
     const date = new Date(2019, 6, 7);
+    const formatted = juliutils.printDate(date);
     
-    expect(juliutils.printDate(date)).toBe('7/7/2019');
+    expect(formatted).toBe('7/7/2019');
 });
 
 it('printCSVDate (July 7th, 2019)', () => {
     const date = new Date(2019, 6, 7);
+    const formatted = juliutils.printCSVDate(date);
     
-    expect(juliutils.printCSVDate(date)).toBe('2019/7/7');
+    expect(formatted).toBe('2019/7/7');
 });
 
 it('omitEmpty', () => {
-    expect(juliutils.omitEmpty({
+    const obj = {
         name: 'Coffee',
         flavor: null
-    })).toEqual({
+    };
+    const result = juliutils.omitEmpty(obj);
+    
+    expect(result).toEqual({
         name: 'Coffee'
     });
 });
 
-it('difference', () => {
-    expect(juliutils.difference([
+it('uniq (simple items)', () => {
+    const arr = [
+        1,
+        1,
+        2,
+        3,
+        1
+    ];
+    const result = juliutils.uniq(arr);
+    
+    expect(result).toEqual([
         1,
         2,
         3
-    ], [
+    ]);
+});
+
+it('uniq (objects, string key)', () => {
+    const arr = [
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Ginger Ale'
+        },
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Pepsi'
+        }
+    ];
+    const result = juliutils.uniq(arr, 'name');
+    
+    expect(result).toEqual([
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Ginger Ale'
+        },
+        {
+            name: 'Pepsi'
+        }
+    ]);
+});
+
+it('uniq (objects, function key)', () => {
+    const arr = [
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Ginger Ale'
+        },
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Pepsi'
+        }
+    ];
+    const result = juliutils.uniq(arr, (item) => {
+        return item.name;
+    });
+    
+    expect(result).toEqual([
+        {
+            name: 'Root Beer'
+        },
+        {
+            name: 'Ginger Ale'
+        },
+        {
+            name: 'Pepsi'
+        }
+    ]);
+});
+
+it('difference', () => {
+    const arr1 = [
+        1,
+        2,
+        3
+    ];
+    const arr2 = [
         1,
         2
-    ])).toEqual([
+    ];
+    const result = juliutils.difference(arr1, arr2);
+    
+    expect(result).toEqual([
         3
     ]);
 });
 
 it('partition', () => {
-    expect(juliutils.partition([
+    const arr = [
         1,
         2,
         3
-    ], (n) => n % 2 === 0)).toEqual([
+    ];
+    const result = juliutils.partition(arr, (n) => {
+        return n % 2 === 0;
+    });
+    
+    expect(result).toEqual([
         [
             2
         ],
@@ -95,16 +188,19 @@ it('partition', () => {
 });
 
 it('mode ([1, 2, 2, 3])', () => {
-    expect(juliutils.mode([
+    const arr = [
         1,
         2,
         2,
         3
-    ])).toBe(2);
+    ];
+    const result = juliutils.mode(arr);
+    
+    expect(result).toBe(2);
 });
 
 it('groupBy', () => {
-    expect(juliutils.groupBy([
+    const arr = [
         {
             name: 'Cat',
             value: 1
@@ -117,7 +213,10 @@ it('groupBy', () => {
             name: 'Cat',
             value: 2
         }
-    ], 'name')).toEqual({
+    ];
+    const grouped = juliutils.groupBy(arr, 'name');
+    
+    expect(grouped).toEqual({
         'Cat': [
             {
                 name: 'Cat',
@@ -138,7 +237,7 @@ it('groupBy', () => {
 });
 
 it('indexBy', () => {
-    expect(juliutils.indexBy([
+    const arr = [
         {
             name: 'Cat',
             value: 1
@@ -151,7 +250,10 @@ it('indexBy', () => {
             name: 'Cat',
             value: 2
         }
-    ], 'name')).toEqual({
+    ];
+    const grouped = juliutils.indexBy(arr, 'name');
+    
+    expect(grouped).toEqual({
         'Cat': {
             name: 'Cat',
             value: 1
@@ -164,15 +266,18 @@ it('indexBy', () => {
 });
 
 it('arrAverage', () => {
-    expect(juliutils.arrAverage([
+    const arr = [
         1,
         2,
         3
-    ])).toBe(2);
+    ];
+    const average = juliutils.arrAverage(arr);
+    
+    expect(average).toBe(2);
 });
 
 it('flatten', () => {
-    expect(juliutils.flatten([
+    const arr = [
         [
             1
         ],
@@ -182,11 +287,14 @@ it('flatten', () => {
                 3
             ]
         ]
-    ])).toEqual([1, 2, [3]]);
+    ];
+    const result = juliutils.flatten(arr);
+    
+    expect(result).toEqual([1, 2, [3]]);
 });
 
 it('flatten (deep)', () => {
-    expect(juliutils.flatten([
+    const arr = [
         [
             1
         ],
@@ -196,33 +304,46 @@ it('flatten (deep)', () => {
                 3
             ]
         ]
-    ], true)).toEqual([1, 2, 3]);
+    ];
+    const result = juliutils.flatten(arr, true);
+    
+    expect(result).toEqual([1, 2, 3]);
 });
 
 it('compact', () => {
-    expect(juliutils.compact([
+    const arr = [
         1,
         2,
         null,
         undefined,
         '',
         0
-    ])).toEqual([1, 2]);
+    ];
+    const result = juliutils.compact(arr);
+    
+    expect(result).toEqual([1, 2]);
 });
 
 it('range', () => {
-    expect(juliutils.range(1, 5)).toEqual([1, 2, 3, 4]);
+    const result = juliutils.range(1, 5);
+    
+    expect(result).toEqual([1, 2, 3, 4]);
 });
 
 it('randomString', () => {
-    expect(juliutils.randomString(5).length).toEqual(5);
+    const result = juliutils.randomString(5);
+    
+    expect(result.length).toEqual(5);
 });
 
 it('pluck', () => {
-    expect(juliutils.pluck({
+    const obj = {
         name: 'Cat',
         value: 2
-    }, ['name'])).toEqual({
+    };
+    const result = juliutils.pluck(obj, ['name']);
+    
+    expect(result).toEqual({
         name: 'Cat'
     });
 });

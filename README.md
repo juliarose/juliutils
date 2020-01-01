@@ -45,7 +45,7 @@ My personal collection of utility functions.
     -   [Parameters](#parameters-16)
 -   [randomString](#randomstring)
     -   [Parameters](#parameters-17)
--   [pluck](#pluck)
+-   [pickKeys](#pickkeys)
     -   [Parameters](#parameters-18)
 -   [createTree](#createtree)
     -   [Parameters](#parameters-19)
@@ -53,7 +53,7 @@ My personal collection of utility functions.
 -   [transformObj](#transformobj)
     -   [Parameters](#parameters-20)
     -   [Examples](#examples-3)
--   [deepClone](#deepclone)
+-   [clone](#clone)
     -   [Parameters](#parameters-21)
 -   [arrToKeys](#arrtokeys)
     -   [Parameters](#parameters-22)
@@ -194,9 +194,14 @@ Gets unique values from array.
 
 ### Parameters
 
--   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of basic items (strings, numbers).
+-   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of items.
+-   `filter` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))?** String or function to filter by.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array with unique values.
+
+**Meta**
+
+-   **since**: 1.0.5 - The filter parameter was added.
 
 ## difference
 
@@ -315,7 +320,7 @@ Create a random string.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Random string.
 
-## pluck
+## pickKeys
 
 Picks keys from an object.
 
@@ -379,7 +384,7 @@ transformObj({
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Transformed object.
 
-## deepClone
+## clone
 
 Recursively clones an object's values.
 

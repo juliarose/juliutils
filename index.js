@@ -126,11 +126,40 @@ function omitEmpty(obj) {
 /**
  * Gets unique values from array.
  * @memberOf juliutils
- * @param {Array} arr - Array of basic items (strings, numbers).
+ * @param {Array} arr - Array of items.
+ * @param {(String|function)} [filter] - String or function to filter by.
  * @returns {Array} Array with unique values.
+ * @since 1.0.5 - The filter parameter was added.
  */
-function uniq(arr) {
-    return [...new Set(arr)];
+function uniq(arr, filter) {
+    if (filter === undefined) {
+        // primitive uniq method
+        return [...new Set(arr)];
+    }
+    
+    const filterIsFunction = typeof filter === 'function';
+    // for storing values
+    let valueList = {};
+    
+    return arr.filter((item, i, array) => {
+        const value = (
+            // the filter is a function
+            filterIsFunction ?
+            filter(item, i, array) :
+            // the filter is a string
+            item[filter]
+        );
+        
+        // the value for this item already exists
+        if (valueList[value]) {
+            return false;
+        }
+        
+        // store the value
+        valueList[value] = true;
+        
+        return true;
+    });
 }
 
 /**
@@ -337,6 +366,7 @@ function randomString(length) {
 /**
  * Picks keys from an object.
  * @memberOf juliutils
+ * @alias pickKeys
  * @param {Object} object - Object to pick values from.
  * @param {Array} keys - Array of keys to pick.
  * @returns {Object} Object with picked keys.
@@ -452,12 +482,16 @@ function transformObj(obj, transforms = {}, level = 0) {
  *
  * This will only clone objects containing basic values (e.g. Strings, numbers).
  * @memberOf juliutils
+ * @alias clone
  * @param {Object} obj - Object.
  * @returns {Object} Cloned object.
  */
 function deepClone(obj) {
     return transformObj(obj);
 }
+
+// alias for deepClone
+const clone = deepClone;
 
 /**
  * Creates an object from an array of keys.
@@ -949,6 +983,7 @@ module.exports = {
     pickKeys,
     createTree,
     deepClone,
+    clone,
     transformObj,
     arrToKeys,
     isNumber,
