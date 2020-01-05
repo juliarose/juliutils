@@ -658,3 +658,120 @@ it('roundN', () => {
     
     expect(rounded).toBe(3.43);
 });
+
+it('closest', () => {
+    const numbers = [1, 5, 9];
+    const number = 6;
+    const closestNumber = juliutils.closest(numbers, number);
+    
+    expect(closestNumber).toBe(5);
+});
+
+it('closest (string key)', () => {
+    const cities = [
+        {
+            name: 'New York',
+            population: 8.6
+        },
+        {
+            name: 'Tokyo',
+            population: 13.8
+        },
+        {
+            name: 'Mumbai',
+            population: 12.4
+        }
+    ];
+    const population = 11;
+    const closestCity = juliutils.closest(cities, population, 'population');
+    
+    expect(closestCity).toEqual({
+        name: 'Mumbai',
+        population: 12.4
+    });
+});
+
+it('chainSort', () => {
+    const numbers = [1, 5, 9, 4, 2];
+    const sorted = juliutils.chainSort(numbers, [
+        (a, b) => {
+            return a - b;
+        }
+    ]);
+    
+    expect(sorted).toEqual([
+        1,
+        2,
+        4,
+        5,
+        9
+    ]);
+});
+
+it('chainSort (multiple)', () => {
+    const items = [
+        {
+            name: 'Water',
+            price: 0,
+            orders: 4
+        },
+        {
+            name: 'Wine',
+            price: 3.99,
+            orders: 2
+        },
+        {
+            name: 'Salad',
+            price: 2.49,
+            orders: 1
+        },
+        {
+            name: 'Bread',
+            price: 2.49,
+            orders: 3
+        },
+        {
+            name: 'Chicken',
+            price: 3.99,
+            orders: 4
+        }
+    ];
+    const sorted = juliutils.chainSort(items, [
+        (a, b) => {
+            // highest to lowest price
+            return b.price - a.price;
+        },
+        (a, b) => {
+            // highest to lowest orders
+            return b.orders - a.orders;
+        }
+    ]);
+    
+    expect(sorted).toEqual([
+        {
+            name: 'Chicken',
+            price: 3.99,
+            orders: 4
+        },
+        {
+            name: 'Wine',
+            price: 3.99,
+            orders: 2
+        },
+        {
+            name: 'Bread',
+            price: 2.49,
+            orders: 3
+        },
+        {
+            name: 'Salad',
+            price: 2.49,
+            orders: 1
+        },
+        {
+            name: 'Water',
+            price: 0,
+            orders: 4
+        }
+    ]);
+});

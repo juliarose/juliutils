@@ -7,149 +7,161 @@ My personal collection of utility functions.
 ### Table of Contents
 
 -   [juliutils](#juliutils)
--   [yes](#yes)
-    -   [Parameters](#parameters)
-    -   [Examples](#examples)
--   [no](#no)
-    -   [Parameters](#parameters-1)
-    -   [Examples](#examples-1)
--   [withinNDaysOf](#withinndaysof)
-    -   [Parameters](#parameters-2)
--   [printDate](#printdate)
-    -   [Parameters](#parameters-3)
--   [printCSVDate](#printcsvdate)
-    -   [Parameters](#parameters-4)
--   [omitEmpty](#omitempty)
-    -   [Parameters](#parameters-5)
--   [uniq](#uniq)
-    -   [Parameters](#parameters-6)
--   [difference](#difference)
-    -   [Parameters](#parameters-7)
--   [partition](#partition)
-    -   [Parameters](#parameters-8)
--   [mode](#mode)
-    -   [Parameters](#parameters-9)
--   [groupBy](#groupby)
-    -   [Parameters](#parameters-10)
--   [indexBy](#indexby)
-    -   [Parameters](#parameters-11)
--   [arrAverage](#arraverage)
-    -   [Parameters](#parameters-12)
--   [flatten](#flatten)
-    -   [Parameters](#parameters-13)
--   [compact](#compact)
-    -   [Parameters](#parameters-14)
--   [flattenCompact](#flattencompact)
-    -   [Parameters](#parameters-15)
--   [range](#range)
-    -   [Parameters](#parameters-16)
--   [randomString](#randomstring)
-    -   [Parameters](#parameters-17)
--   [pickKeys](#pickkeys)
-    -   [Parameters](#parameters-18)
--   [createTree](#createtree)
-    -   [Parameters](#parameters-19)
-    -   [Examples](#examples-2)
--   [transformObj](#transformobj)
-    -   [Parameters](#parameters-20)
-    -   [Examples](#examples-3)
--   [clone](#clone)
-    -   [Parameters](#parameters-21)
--   [arrToKeys](#arrtokeys)
-    -   [Parameters](#parameters-22)
-    -   [Examples](#examples-4)
--   [isNumber](#isnumber)
-    -   [Parameters](#parameters-23)
--   [truncate](#truncate)
-    -   [Parameters](#parameters-24)
--   [basicPlural](#basicplural)
-    -   [Parameters](#parameters-25)
--   [valuesAsKeys](#valuesaskeys)
-    -   [Parameters](#parameters-26)
-    -   [Examples](#examples-5)
--   [escapeCSV](#escapecsv)
-    -   [Parameters](#parameters-27)
--   [escapeRegExp](#escaperegexp)
-    -   [Parameters](#parameters-28)
--   [escapeHTML](#escapehtml)
-    -   [Parameters](#parameters-29)
--   [takeNRandom](#takenrandom)
-    -   [Parameters](#parameters-30)
-    -   [Examples](#examples-6)
--   [promiseSeries](#promiseseries)
-    -   [Parameters](#parameters-31)
-    -   [Examples](#examples-7)
--   [delayPromise](#delaypromise)
-    -   [Parameters](#parameters-32)
--   [deepEqual](#deepequal)
-    -   [Parameters](#parameters-33)
--   [without](#without)
-    -   [Parameters](#parameters-34)
-    -   [Examples](#examples-8)
--   [shorten](#shorten)
-    -   [Parameters](#parameters-35)
-    -   [Examples](#examples-9)
--   [roundN](#roundn)
-    -   [Parameters](#parameters-36)
-    -   [Examples](#examples-10)
+    -   [yes](#yes)
+        -   [Parameters](#parameters)
+        -   [Examples](#examples)
+    -   [no](#no)
+        -   [Parameters](#parameters-1)
+        -   [Examples](#examples-1)
+    -   [withinNDaysOf](#withinndaysof)
+        -   [Parameters](#parameters-2)
+    -   [printDate](#printdate)
+        -   [Parameters](#parameters-3)
+    -   [printCSVDate](#printcsvdate)
+        -   [Parameters](#parameters-4)
+    -   [omitEmpty](#omitempty)
+        -   [Parameters](#parameters-5)
+    -   [uniq](#uniq)
+        -   [Parameters](#parameters-6)
+    -   [difference](#difference)
+        -   [Parameters](#parameters-7)
+    -   [partition](#partition)
+        -   [Parameters](#parameters-8)
+    -   [mode](#mode)
+        -   [Parameters](#parameters-9)
+    -   [groupBy](#groupby)
+        -   [Parameters](#parameters-10)
+    -   [indexBy](#indexby)
+        -   [Parameters](#parameters-11)
+    -   [arrAverage](#arraverage)
+        -   [Parameters](#parameters-12)
+    -   [flatten](#flatten)
+        -   [Parameters](#parameters-13)
+    -   [compact](#compact)
+        -   [Parameters](#parameters-14)
+    -   [flattenCompact](#flattencompact)
+        -   [Parameters](#parameters-15)
+    -   [range](#range)
+        -   [Parameters](#parameters-16)
+    -   [randomString](#randomstring)
+        -   [Parameters](#parameters-17)
+    -   [pickKeys](#pickkeys)
+        -   [Parameters](#parameters-18)
+    -   [createTree](#createtree)
+        -   [Parameters](#parameters-19)
+        -   [Examples](#examples-2)
+    -   [transformObj](#transformobj)
+        -   [Parameters](#parameters-20)
+        -   [Examples](#examples-3)
+    -   [clone](#clone)
+        -   [Parameters](#parameters-21)
+    -   [arrToKeys](#arrtokeys)
+        -   [Parameters](#parameters-22)
+        -   [Examples](#examples-4)
+    -   [isNumber](#isnumber)
+        -   [Parameters](#parameters-23)
+    -   [truncate](#truncate)
+        -   [Parameters](#parameters-24)
+    -   [basicPlural](#basicplural)
+        -   [Parameters](#parameters-25)
+    -   [valuesAsKeys](#valuesaskeys)
+        -   [Parameters](#parameters-26)
+        -   [Examples](#examples-5)
+    -   [escapeCSV](#escapecsv)
+        -   [Parameters](#parameters-27)
+    -   [escapeRegExp](#escaperegexp)
+        -   [Parameters](#parameters-28)
+    -   [escapeHTML](#escapehtml)
+        -   [Parameters](#parameters-29)
+    -   [takeNRandom](#takenrandom)
+        -   [Parameters](#parameters-30)
+        -   [Examples](#examples-6)
+    -   [promiseSeries](#promiseseries)
+        -   [Parameters](#parameters-31)
+        -   [Examples](#examples-7)
+    -   [delayPromise](#delaypromise)
+        -   [Parameters](#parameters-32)
+    -   [deepEqual](#deepequal)
+        -   [Parameters](#parameters-33)
+    -   [without](#without)
+        -   [Parameters](#parameters-34)
+        -   [Examples](#examples-8)
+    -   [shorten](#shorten)
+        -   [Parameters](#parameters-35)
+        -   [Examples](#examples-9)
+    -   [roundN](#roundn)
+        -   [Parameters](#parameters-36)
+        -   [Examples](#examples-10)
+    -   [closest](#closest)
+        -   [Parameters](#parameters-37)
+        -   [Examples](#examples-11)
+    -   [chainSort](#chainsort)
+        -   [Parameters](#parameters-38)
+        -   [Examples](#examples-12)
 
 ## juliutils
 
 General purpose utility functions.
 
-## yes
+### yes
 
 Interprets whether a string means yes or not.
 
-### Parameters
+#### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Test string.
 
-### Examples
+#### Examples
 
 ```javascript
-yes('yes'); // true
+yes('yes');
+// true
 ```
 
 ```javascript
-yes('yup'); // true
+yes('yup');
+// true
 ```
 
 ```javascript
-yes('no'); // false
+yes('no');
+// false
 ```
 
 Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** No?
 
-## no
+### no
 
 Interprets whether a string means no or not.
 
-### Parameters
+#### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Test string.
 
-### Examples
+#### Examples
 
 ```javascript
-no('no'); // true
+no('no');
+// true
 ```
 
 ```javascript
-no('nope'); // true
+no('nope');
+// true
 ```
 
 ```javascript
-no('yes'); // false
+no('yes');
+// false
 ```
 
 Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Yes?
 
-## withinNDaysOf
+### withinNDaysOf
 
 Checks whether two dates are within N days of each other.
 
-### Parameters
+#### Parameters
 
 -   `date1` **[Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)** First date.
 -   `date2` **[Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)** Second date.
@@ -157,42 +169,42 @@ Checks whether two dates are within N days of each other.
 
 Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the two dates are within N days of each other.
 
-## printDate
+### printDate
 
 Prints a date as a string in mm/dd/YYYY format.
 
-### Parameters
+#### Parameters
 
 -   `date` **[Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)** Date to print.
 -   `separator` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Separator used between dates. (optional, default `'/'`)
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String of date.
 
-## printCSVDate
+### printCSVDate
 
 Prints a date for a CSV file in YYYY/mm/dd format.
 
-### Parameters
+#### Parameters
 
 -   `date` **[Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)** Date to print.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String of date to be inserted into a CSV cell.
 
-## omitEmpty
+### omitEmpty
 
 Omits keys with values that are empty from object.
 
-### Parameters
+#### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to omit values from.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object with null, undefined, or empty string values omitted.
 
-## uniq
+### uniq
 
 Gets unique values from array.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of items.
 -   `filter` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))?** String or function to filter by.
@@ -203,167 +215,168 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 -   **since**: 1.0.5 - The filter parameter was added.
 
-## difference
+### difference
 
 Gets difference between two arrays.
 
-### Parameters
+#### Parameters
 
 -   `arr1` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** First array.
 -   `arr2` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Second array.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array with values removed.
 
-## partition
+### partition
 
 Partitions array based on conditions.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array.
 -   `method` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to satisfy.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Partitioned array.
 
-## mode
+### mode
 
 Returns mode from array of numbers.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of numbers.
 
 Returns **([Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))** Mode of numbers, or undefined if array is empty.
 
-## groupBy
+### groupBy
 
 Groups an array by value from key.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array.
 -   `key` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Key to take value from.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object of groups.
 
-## indexBy
+### indexBy
 
 Indexes an array by value from key.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array.
 -   `key` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Key to take value from.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Indexed object.
 
-## arrAverage
+### arrAverage
 
 Averages an array of values.
 
-### Parameters
+#### Parameters
 
 -   `values` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of values.
 
 Returns **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Average of all values in array.
 
-## flatten
+### flatten
 
 Flattens an array.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array to flatten.
 -   `deep` **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Recursive flatten?
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Flattened array.
 
-## compact
+### compact
 
 Removes all falsy values from an array.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array to compact.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Compacted array.
 
-## flattenCompact
+### flattenCompact
 
 Flattens and compacts array.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array to flatten and compact.
 -   `deep` **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Whether the array should be flattened recursively.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Flattened and compacted array.
 
-## range
+### range
 
 Create range of numbers from low to high.
 
-### Parameters
+#### Parameters
 
 -   `low` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Low number.
 -   `high` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** High number.
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of numbers in range.
 
-## randomString
+### randomString
 
 Create a random string.
 
-### Parameters
+#### Parameters
 
 -   `length` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Length of string. (optional, default `10`)
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Random string.
 
-## pickKeys
+### pickKeys
 
 Picks keys from an object.
 
-### Parameters
+#### Parameters
 
 -   `object` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to pick values from.
 -   `keys` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of keys to pick.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object with picked keys.
 
-## createTree
+### createTree
 
 Creates a tree within an object.
 
 Modifies the original object.
 
-### Parameters
+#### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to build tree on.
 -   `tree` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Tree to build on 'obj'.
 -   `ender` **any?** Any value to use as the end value.
 
-### Examples
+#### Examples
 
 ```javascript
-createTree({}, ['fruit', 'color'], 'red'); // { fruit: { color: 'red' } }
+createTree({}, ['fruit', 'color'], 'red');
+// { fruit: { color: 'red' } }
 ```
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The same object passed as 'obj'.
 
-## transformObj
+### transformObj
 
 Recursively transforms key/values in object, including array values.
 
 Also can act as a basic deep clone method.
 
-### Parameters
+#### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to transform.
 -   `transforms` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object containing transformation functions. (optional, default `{}`)
 -   `level` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Level of recursion, passed as the 2nd argument to a transform function. (optional, default `0`)
 
-### Examples
+#### Examples
 
 ```javascript
 transformObj({
@@ -379,55 +392,57 @@ transformObj({
     values: (value) => {
         return value.toUpperCase();
     }
-}); // { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
+});
+// { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
 ```
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Transformed object.
 
-## clone
+### clone
 
 Recursively clones an object's values.
 
 This will only clone objects containing basic values (e.g. Strings, numbers).
 
-### Parameters
+#### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Cloned object.
 
-## arrToKeys
+### arrToKeys
 
 Creates an object from an array of keys.
 
-### Parameters
+#### Parameters
 
 -   `keys` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of keys.
 -   `value` **any?** Value to assign to each key.
 
-### Examples
+#### Examples
 
 ```javascript
-arrToKeys(['a', 'b'], 0); // { a: 0, b: 0 }
+arrToKeys(['a', 'b'], 0);
+// { a: 0, b: 0 }
 ```
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object with keys mapped from array.
 
-## isNumber
+### isNumber
 
 Checks if a value is a number or not.
 
-### Parameters
+#### Parameters
 
 -   `value` **any** Value to test.
 
 Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the value is a number or not.
 
-## truncate
+### truncate
 
 Truncates a string with option to add trail at end.
 
-### Parameters
+#### Parameters
 
 -   `string` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String.
 -   `length` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Length to trim to.
@@ -435,11 +450,11 @@ Truncates a string with option to add trail at end.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Truncated string.
 
-## basicPlural
+### basicPlural
 
 Chooses a form based on number.
 
-### Parameters
+#### Parameters
 
 -   `singular` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Singular form.
 -   `plural` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Plural form.
@@ -447,78 +462,80 @@ Chooses a form based on number.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Form based on value.
 
-## valuesAsKeys
+### valuesAsKeys
 
 Assigns values of object as keys.
 
-### Parameters
+#### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object.
 
-### Examples
+#### Examples
 
 ```javascript
-valuesAsKeys({ a: 'apple' }); // { a: 'apple', 'apple': 'a' }
+valuesAsKeys({ a: 'apple' });
+// { a: 'apple', 'apple': 'a' }
 ```
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object with values mapped as keys.
 
-## escapeCSV
+### escapeCSV
 
 Escapes a cell value in CSV.
 
-### Parameters
+#### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Escaped string.
 
-## escapeRegExp
+### escapeRegExp
 
 Escape a string in RegExp.
 
-### Parameters
+#### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Escaped string.
 
-## escapeHTML
+### escapeHTML
 
 Escapes text to use as strings in HTML format.
 
-### Parameters
+#### Parameters
 
 -   `text` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Text to escape.
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Escaped text.
 
-## takeNRandom
+### takeNRandom
 
 Picks a number of items from an array at random.
 
-### Parameters
+#### Parameters
 
 -   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array to pick items from.
 -   `num` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of items to take.
 
-### Examples
+#### Examples
 
 ```javascript
-takeNRandom([1, 2, 3, 4, 5], 3); // [3, 5, 2]
+takeNRandom([1, 2, 3, 4, 5], 3);
+// [3, 5, 2]
 ```
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** N number of values taken from array at random.
 
-## promiseSeries
+### promiseSeries
 
 Executes a series of Promises in sequence.
 
-### Parameters
+#### Parameters
 
 -   `funcs` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** An array of functions where each function returns a Promise.
 
-### Examples
+#### Examples
 
 ```javascript
 const urls = ['/url1', '/url2', '/url3'];
@@ -528,11 +545,11 @@ promiseSeries(urls.map(url => () => $.ajax(url)))
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)>** Promise that resolves with an array containing results from each resolved Promise in series.
 
-## delayPromise
+### delayPromise
 
 Delays a promise.
 
-### Parameters
+#### Parameters
 
 -   `time` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Time in ms to delay.
 -   `value` **any?** Value to pass to resolve.
@@ -543,54 +560,57 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   **since**: 1.0.1 - The time parameter comes first.
 
-## deepEqual
+### deepEqual
 
 Checks if A is equal to B.
 
-### Parameters
+#### Parameters
 
 -   `a` **any** Value A.
 -   `b` **any** Value B.
 
 Returns **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether A is equal to B.
 
-## without
+### without
 
 Removes elements from an object or array by value.
 
-### Parameters
+#### Parameters
 
 -   `item` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array))** Item to process.
 -   `value` **(any)** Value or array of values to remove from item.
 
-### Examples
+#### Examples
 
 ```javascript
-without({ name: 'cat', color: 'orange' }, ['orange]); // { name: 'cat' }
+without({ name: 'cat', color: 'orange' }, ['orange]);
+// { name: 'cat' }
 ```
 
 ```javascript
-without(['cat', 'orange'], ['orange]); // ['cat']
+without(['cat', 'orange'], ['orange]);
+// ['cat']
 ```
 
 ```javascript
 // or using just a string
-without(['cat', 'orange'], 'orange); // ['cat']
+without(['cat', 'orange'], 'orange);
+// ['cat']
 ```
 
 Returns **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array without the given values.
 
-## shorten
+### shorten
 
 Shortens a sentence-like string without cutting off the final word.
 
-### Parameters
+#### Parameters
 
 -   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String to shorten.
 -   `maxLength` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Max length of string.
 -   `seperator` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Regexp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp))** Word seperator. If a RegExp is given, words will be seperated by a space. (optional, default `' '`)
 
-### Examples
+#### Examples
 
 ```javascript
 shorten('that cat is fat', 8);
@@ -605,16 +625,16 @@ shorten('123x456x789', 8, 'x');
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Shortened string.
 
-## roundN
+### roundN
 
 Rounds number to N decimal places.
 
-### Parameters
+#### Parameters
 
 -   `value` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Value to round.
 -   `places` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Places to round to.
 
-### Examples
+#### Examples
 
 ```javascript
 roundN(4.344, 1)
@@ -622,3 +642,64 @@ roundN(4.344, 1)
 ```
 
 Returns **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rounded number.
+
+### closest
+
+Gets the closest value to a given number in the array.
+
+#### Parameters
+
+-   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of anything. If comparing non-numbers, a key should be given.
+-   `num` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number to be closest to.
+-   `key` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Key or method to extract value from each item.
+
+#### Examples
+
+```javascript
+// gets the closest value in array to 6
+closest([1, 5, 9], 6);
+// 5
+```
+
+```javascript
+// gets the city with the closest population to 11m
+closest([
+    {
+        name: 'New York',
+        population: 8.6
+    },
+    {
+        name: 'Tokyo',
+        population: 13.8
+    },
+    {
+        name: 'Mumbai',
+        population: 12.4
+    }
+], 11, 'population');
+// { name: 'Mumbai', population: 12.4 }
+```
+
+Returns **any** Closest value in array.
+
+### chainSort
+
+Sorts an array in a chain.
+
+#### Parameters
+
+-   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array to sort.
+-   `funcs` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)>** Array of functions
+
+#### Examples
+
+```javascript
+chainSort([1, 5, 9, 4, 2], [
+    (a, b) => {
+        return a - b;
+    }
+]);
+// [1, 2, 4, 5, 9]
+```
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Sorted array.

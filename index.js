@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * General purpose utility functions.
  * @module juliutils
@@ -7,18 +5,20 @@
 
 /**
  * Interprets whether a string means yes or not.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} str - Test string.
  * @returns {Boolean} No?
  *
  * @example
- * yes('yes'); // true
- 
+ * yes('yes');
+ * // true
+ *
  * @example
- * yes('yup'); // true
- 
+ * yes('yup');
+ * // true
  * @example
- * yes('no'); // false
+ * yes('no');
+ * // false
  */
 function yes(str) {
     // "yes"
@@ -37,18 +37,21 @@ function yes(str) {
 
 /**
  * Interprets whether a string means no or not.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} str - Test string.
  * @returns {Boolean} Yes?
  *
  * @example
- * no('no'); // true
- 
+ * no('no');
+ * // true
+ *
  * @example
- * no('nope'); // true
- 
+ * no('nope');
+ * // true
+ *
  * @example
- * no('yes'); // false
+ * no('yes');
+ * // false
  */
 function no(str) {
     // "no"
@@ -63,7 +66,7 @@ function no(str) {
 
 /**
  * Checks whether two dates are within N days of each other.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Date} date1 - First date.
  * @param {Date} date2 - Second date.
  * @param {Number} [days=1] - Number of days.
@@ -78,7 +81,7 @@ function withinNDaysOf(date1, date2, days = 1) {
 
 /**
  * Prints a date as a string in mm/dd/YYYY format.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Date} date - Date to print.
  * @param {String} [separator='/'] - Separator used between dates.
  * @returns {String} String of date.
@@ -93,7 +96,7 @@ function printDate(date, separator = '/') {
 
 /**
  * Prints a date for a CSV file in YYYY/mm/dd format.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Date} date - Date to print.
  * @returns {String} String of date to be inserted into a CSV cell.
  */
@@ -107,7 +110,7 @@ function printCSVDate(date) {
 
 /**
  * Omits keys with values that are empty from object.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Object} obj - Object to omit values from.
  * @returns {Object} Object with null, undefined, or empty string values omitted.
  */
@@ -125,7 +128,7 @@ function omitEmpty(obj) {
 
 /**
  * Gets unique values from array.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array of items.
  * @param {(String|function)} [filter] - String or function to filter by.
  * @returns {Array} Array with unique values.
@@ -164,7 +167,7 @@ function uniq(arr, filter) {
 
 /**
  * Gets difference between two arrays.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr1 - First array.
  * @param {Array} arr2 - Second array.
  * @returns {Array} Array with values removed.
@@ -177,7 +180,7 @@ function difference(arr1, arr2) {
 
 /**
  * Partitions array based on conditions.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array.
  * @param {Function} method - Function to satisfy.
  * @returns {Array} Partitioned array.
@@ -202,7 +205,7 @@ function partition(arr, method) {
 
 /**
  * Returns mode from array of numbers.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array of numbers.
  * @returns {(Number|undefined)} Mode of numbers, or undefined if array is empty.
  */
@@ -210,10 +213,9 @@ function mode(arr) {
     // store number of occurences for each value
     let modeMap = {};
     let maxCount = 0;
-    let maxValue;
     
-    arr.forEach((value) => {
-        let count = (modeMap[value] || 0) + 1;
+    return arr.reduce((maxValue, value) => {
+        const count = (modeMap[value] || 0) + 1;
         
         // increment map for value
         modeMap[value] = count;
@@ -223,24 +225,24 @@ function mode(arr) {
             maxValue = value;
             maxCount = count;
         }
+        
+        return maxValue;
     });
-    
-    return maxValue;
 }
 
 /**
  * Groups an array by value from key.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array.
  * @param {(String|Function)} key - Key to take value from.
  * @returns {Object} Object of groups.
  */
 function groupBy(arr, key) {
     // if 'key' is a function, set method to 'key'
-    const method = typeof key === 'function' ? key : null;
+    const fn = typeof key === 'function' ? key : null;
     
     return arr.reduce((group, item) => {
-        const value = method ? method(item) : item[key];
+        const value = fn ? fn(item) : item[key];
         
         (group[value] = group[value] || []).push(item);
         
@@ -250,17 +252,17 @@ function groupBy(arr, key) {
 
 /**
  * Indexes an array by value from key.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array.
  * @param {(String|Function)} key - Key to take value from.
  * @returns {Object} Indexed object.
  */
 function indexBy(arr, key) {
     // if 'key' is a function, set method to 'key'
-    const method = typeof key === 'function' ? key : null;
+    const fn = typeof key === 'function' ? key : null;
     
     return arr.reduce((group, item) => {
-        const value = method ? method(item) : item[key];
+        const value = fn ? fn(item) : item[key];
         
         if (group[value] === undefined) {
             group[value] = item;
@@ -272,7 +274,7 @@ function indexBy(arr, key) {
 
 /**
  * Averages an array of values.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} values - Array of values.
  * @returns {Number} Average of all values in array.
  */
@@ -291,7 +293,7 @@ function arrAverage(values) {
 
 /**
  * Flattens an array.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array to flatten.
  * @param {Boolean} [deep] - Recursive flatten?
  * @returns {Array} Flattened array.
@@ -301,18 +303,18 @@ function flatten(arr, deep) {
         if (Array.isArray(value)) {
             if (deep) {
                 return [...result, ...flatten(value, deep)];
-            } else {
-                return [...result, ...value];
             }
-        } else {
-            return [...result, value];
+            
+            return [...result, ...value];
         }
+        
+        return [...result, value];
     }, []);
 }
 
 /**
  * Removes all falsy values from an array.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array to compact.
  * @returns {Array} Compacted array.
  */
@@ -322,7 +324,7 @@ function compact(arr) {
 
 /**
  * Flattens and compacts array.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array to flatten and compact.
  * @param {Boolean} [deep] - Whether the array should be flattened recursively.
  * @returns {Array} Flattened and compacted array.
@@ -333,7 +335,7 @@ function flattenCompact(arr, deep) {
 
 /**
  * Create range of numbers from low to high.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Number} low - Low number.
  * @param {Number} high - High number.
  * @returns {Array} Array of numbers in range.
@@ -344,7 +346,7 @@ function range(low, high) {
 
 /**
  * Create a random string.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Number} [length=10] - Length of string.
  * @returns {String} Random string.
  */
@@ -365,7 +367,7 @@ function randomString(length) {
 
 /**
  * Picks keys from an object.
- * @memberOf juliutils
+ * @memberof juliutils
  * @alias pickKeys
  * @param {Object} object - Object to pick values from.
  * @param {Array} keys - Array of keys to pick.
@@ -388,14 +390,15 @@ const pickKeys = pluck;
  * Creates a tree within an object.
  *
  * Modifies the original object.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Object} obj - Object to build tree on.
  * @param {Array} tree - Tree to build on 'obj'.
  * @param {*} [ender] - Any value to use as the end value.
  * @returns {Object} The same object passed as 'obj'.
  *
  * @example
- * createTree({}, ['fruit', 'color'], 'red'); // { fruit: { color: 'red' } }
+ * createTree({}, ['fruit', 'color'], 'red');
+ * // { fruit: { color: 'red' } }
  */
 function createTree(obj, tree, ender) {
     let current = obj;
@@ -422,7 +425,7 @@ function createTree(obj, tree, ender) {
  * Recursively transforms key/values in object, including array values.
  *
  * Also can act as a basic deep clone method.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Object} obj - Object to transform.
  * @param {Object} [transforms={}] - Object containing transformation functions.
  * @param {Function} [transform.keys] - Function for transforming keys from 'obj'.
@@ -444,7 +447,8 @@ function createTree(obj, tree, ender) {
  *     values: (value) => {
  *         return value.toUpperCase();
  *     }
- * }); // { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
+ * });
+ * // { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
  */
 function transformObj(obj, transforms = {}, level = 0) {
     if (typeof obj !== 'object' || obj === null) {
@@ -481,7 +485,7 @@ function transformObj(obj, transforms = {}, level = 0) {
  * Recursively clones an object's values.
  *
  * This will only clone objects containing basic values (e.g. Strings, numbers).
- * @memberOf juliutils
+ * @memberof juliutils
  * @alias clone
  * @param {Object} obj - Object.
  * @returns {Object} Cloned object.
@@ -495,13 +499,14 @@ const clone = deepClone;
 
 /**
  * Creates an object from an array of keys.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} keys - Array of keys.
  * @param {*} [value] - Value to assign to each key.
  * @returns {Object} Object with keys mapped from array.
  *
  * @example
- * arrToKeys(['a', 'b'], 0); // { a: 0, b: 0 }
+ * arrToKeys(['a', 'b'], 0);
+ * // { a: 0, b: 0 }
  */
 function arrToKeys(keys, value) {
     let result = {};
@@ -515,7 +520,7 @@ function arrToKeys(keys, value) {
 
 /**
  * Checks if a value is a number or not.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {*} value - Value to test.
  * @returns {Boolean} Whether the value is a number or not.
  */
@@ -529,7 +534,7 @@ function isNumber(value) {
 
 /**
  * Truncates a string with option to add trail at end.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} string - String.
  * @param {Number} length - Length to trim to.
  * @param {String} [trail] - Trailing characters.
@@ -538,14 +543,14 @@ function isNumber(value) {
 function truncate(string, length, trail) {
     if (string.length > length) {
         return string.substr(0, length).trim() + (trail || '');
-    } else {
-        return string;
     }
+    
+    return string;
 }
 
 /**
  * Chooses a form based on number.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} singular - Singular form.
  * @param {String} plural - Plural form.
  * @param {Number} value - Test value.
@@ -554,19 +559,20 @@ function truncate(string, length, trail) {
 function basicPlural(singular, plural, value) {
     if (value !== 1) {
         return plural;
-    } else {
-        return singular;
     }
+    
+    return singular;
 }
 
 /**
  * Assigns values of object as keys.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Object} obj - Object.
  * @returns {Object} Object with values mapped as keys.
  *
  * @example
- * valuesAsKeys({ a: 'apple' }); // { a: 'apple', 'apple': 'a' }
+ * valuesAsKeys({ a: 'apple' });
+ * // { a: 'apple', 'apple': 'a' }
  */
 function valuesAsKeys(obj) {
     // create clone so we do not modify original object
@@ -581,7 +587,7 @@ function valuesAsKeys(obj) {
 
 /**
  * Escapes a cell value in CSV.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} str - String.
  * @returns {String} Escaped string.
  */
@@ -593,7 +599,7 @@ function escapeCSV(str) {
 
 /**
  * Escape a string in RegExp.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} str - String.
  * @returns {String} Escaped string.
  */
@@ -603,7 +609,7 @@ function escapeRegExp(str) {
 
 /**
  * Escapes text to use as strings in HTML format.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} text - Text to escape.
  * @returns {String} Escaped text.
  */
@@ -621,20 +627,21 @@ function escapeHTML(text) {
                 '"': '&quot;'
             }[value];
         });
-    } else {
-        return text;
     }
+    
+    return text;
 }
 
 /**
  * Picks a number of items from an array at random.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} arr - Array to pick items from.
  * @param {Number} num - Number of items to take.
  * @returns {Array} N number of values taken from array at random.
  *
  * @example
- * takeNRandom([1, 2, 3, 4, 5], 3); // [3, 5, 2]
+ * takeNRandom([1, 2, 3, 4, 5], 3);
+ * // [3, 5, 2]
  */
 function takeNRandom(arr, num) {
     if (arr.length === 0) {
@@ -671,7 +678,7 @@ function takeNRandom(arr, num) {
         let result = [];
         
         for (let i = 0; i < Math.min(num, clone.length); i++) {
-            let random = Math.floor(Math.random() * clone.length);
+            const random = Math.floor(Math.random() * clone.length);
             // splice value at "num"
             // this returns an array with 1 item so we take its first value
             // this modifies the array so the value no longer exists in it
@@ -690,14 +697,14 @@ function takeNRandom(arr, num) {
     // but the higher method should start seeing much better performance around this percent
     if (num / arr.length >= 0.25) {
         return getHigh(arr, num);
-    } else {
-        return getLow(arr, num);
     }
+    
+    return getLow(arr, num);
 }
 
 /**
  * Executes a series of Promises in sequence.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Array} funcs - An array of functions where each function returns a Promise.
  * @returns {Promise<Array>} Promise that resolves with an array containing results from each resolved Promise in series.
  * 
@@ -736,7 +743,7 @@ function promiseSeries(funcs) {
 
 /**
  * Delays a promise.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Number} time - Time in ms to delay.
  * @param {*} [value] - Value to pass to resolve.
  * @returns {Promise} Promise that resolves after the given delay.
@@ -752,7 +759,7 @@ function delayPromise(time, value) {
 
 /**
  * Checks if A is equal to B.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {*} a - Value A.
  * @param {*} b - Value B.
  * @returns {Boolean} Whether A is equal to B.
@@ -800,7 +807,7 @@ function deepEqual(a, b) {
             return Object.getOwnPropertyNames(obj).sort();
         };
         const propsA = getProps(a);
-        const propsB = getProps(b)
+        const propsB = getProps(b);
         // checks that all properties match
         // I found this to be slightly faster than the array.every option
         /*
@@ -808,7 +815,7 @@ function deepEqual(a, b) {
            // matching values in each object
            return deepEqual(a[key], b[key]);
         })
-        */;
+        */
         const sameValues = (a, b, props) => {
             for (let i = 0; i < props.length; i++) {
                 const key = props[i];
@@ -838,20 +845,23 @@ function deepEqual(a, b) {
 
 /**
  * Removes elements from an object or array by value.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {(Object|Array)} item - Item to process. 
  * @param {(*)} value - Value or array of values to remove from item.
  * @returns {(Object|Array)} Object or array without the given values.
  * 
  * @example
- * without({ name: 'cat', color: 'orange' }, ['orange]); // { name: 'cat' }
- 
+ * without({ name: 'cat', color: 'orange' }, ['orange]);
+ * // { name: 'cat' }
+ *
  * @example
- * without(['cat', 'orange'], ['orange]); // ['cat']
- 
+ * without(['cat', 'orange'], ['orange]);
+ * // ['cat']
+ *
  * @example
  * // or using just a string
- * without(['cat', 'orange'], 'orange); // ['cat']
+ * without(['cat', 'orange'], 'orange);
+ * // ['cat']
  */
 function without(item, value) {
     const valueIsArray =  Array.isArray(value);
@@ -892,7 +902,7 @@ function without(item, value) {
 
 /**
  * Shortens a sentence-like string without cutting off the final word.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {String} str - String to shorten.
  * @param {Number} maxLength - Max length of string.
  * @param {(String|Regexp)} seperator - Word seperator. If a RegExp is given, words will be seperated by a space.
@@ -945,7 +955,7 @@ function shorten(str, maxLength, seperator = ' ') {
 
 /**
  * Rounds number to N decimal places.
- * @memberOf juliutils
+ * @memberof juliutils
  * @param {Number} value - Value to round.
  * @param {Number} places - Places to round to.
  * @returns {Number} Rounded number.
@@ -958,6 +968,107 @@ function roundN(value, places) {
     const multiplier = Math.pow(10, places);
     
     return Math.round(value * multiplier) / multiplier;
+}
+
+/**
+ * Gets the closest value to a given number in the array.
+ * @memberof juliutils
+ * @param {Array} arr - Array of anything. If comparing non-numbers, a key should be given.
+ * @param {Number} num - Number to be closest to.
+ * @param {(String|function)} key - Key or method to extract value from each item.
+ * @returns {*} Closest value in array.
+ *
+ * @example
+ * // gets the closest value in array to 6
+ * closest([1, 5, 9], 6);
+ * // 5
+ *
+ * @example
+ * // gets the city with the closest population to 11m
+ * closest([
+ *     {
+ *         name: 'New York',
+ *         population: 8.6
+ *     },
+ *     {
+ *         name: 'Tokyo',
+ *         population: 13.8
+ *     },
+ *     {
+ *         name: 'Mumbai',
+ *         population: 12.4
+ *     }
+ * ], 11, 'population');
+ * // { name: 'Mumbai', population: 12.4 }
+ */
+function closest(arr, num, key) {
+    // if 'key' is a function, set method to 'key'
+    const fn = typeof key === 'function' ? key : null;
+    const keyIsString = Boolean(typeof key === 'string');
+    const getValue =  (value) => {
+        if (fn) {
+            return fn(value);
+        } else if (keyIsString) {
+            return value[key];
+        }
+        
+        return value;
+    };
+    // cache previous value rather than re-create over each iteration
+    let previousValue;
+    
+    return arr.reduce((previous, current, i) => {
+        // reduce index starts at 1
+        if (i === 1) {
+            // set the initial value
+            previousValue = getValue(previous);
+        }
+        
+        // transform the current value
+        const currentValue = getValue(current);
+        const differenceOfCurrent = Math.abs(currentValue - num);
+        const differenceOfPrevious = Math.abs(previousValue - num);
+        const currentIsCloserThanPrevious = differenceOfCurrent < differenceOfPrevious;
+        
+        if (currentIsCloserThanPrevious) {
+            // cache the previousValue as the new value for the current item
+            previousValue = currentValue;
+            
+            // replace previous number with the current number
+            return current;
+        }
+        
+        return previous;
+    });
+}
+
+/**
+ * Sorts an array in a chain.
+ * @memberof juliutils
+ * @param {Array} arr - Array to sort.
+ * @param {function[]} funcs - Array of functions
+ * @returns {Array} Sorted array.
+ *
+ * @example
+ * chainSort([1, 5, 9, 4, 2], [
+ *     (a, b) => {
+ *         return a - b;
+ *     }
+ * ]);
+ * // [1, 2, 4, 5, 9]
+ */
+function chainSort(arr, funcs) {
+    // use slice to preserve original array
+    return arr.slice(0).sort((a, b) => {
+        let value;
+        
+        funcs.find((func) => {
+            // assign new value, stop iterating when a truthy value has been found
+            return (value = func(a, b));
+        });
+        
+        return value;
+    });
 }
 
 module.exports = {
@@ -999,5 +1110,7 @@ module.exports = {
     deepEqual,
     without,
     shorten,
-    roundN
+    roundN,
+    closest,
+    chainSort
 };
