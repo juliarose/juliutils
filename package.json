@@ -9,7 +9,8 @@
     "docs": "documentation readme index.js --section=API"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "devDependencies": {
     "documentation": "^12.1.1",
