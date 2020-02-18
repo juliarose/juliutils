@@ -29,11 +29,13 @@ function yes(str) {
     // "yay"
     // "ok" or "k"
     // "mhmmm..." (any number of trailing m's)
-    let pattern = /^(yes|y|yeah?|y[ae]|y[ue]p|yay|o?k|mhm+)$/i;
+    const pattern = /^(yes|y|yeah?|y[ae]|y[ue]p|yay|o?k|mhm+)$/i;
     
     // remove all non-alphabetical characters (including spaces and numbers)
     return pattern.test(str.replace(/[^A-Za-z]/g, ''));
 }
+
+const yay = yes;
 
 /**
  * Interprets whether a string means no or not.
@@ -58,11 +60,13 @@ function no(str) {
     // "n"
     // "na" or "nay" or "nah"
     // "nope" or "nop
-    let pattern = /^(no|n|na[yh]?|nope?|)$/i;
+    const pattern = /^(no|n|na[yh]?|nope?|)$/i;
     
     // remove all non-alphabetical characters (including spaces and numbers)
     return pattern.test(str.replace(/[^A-Za-z]/g, ''));
 }
+
+const nay = no;
 
 /**
  * Checks whether two dates are within N days of each other.
@@ -186,10 +190,10 @@ function difference(arr1, arr2) {
  * @returns {Array} Partitioned array.
  */
 function partition(arr, method) {
-    return arr.reduce((prev, value) => {
+    return arr.reduce((prev, value, i) => {
         // pick which index to push to based on
         // thruthiness of return value from method
-        const index = method(value) ? 0 : 1;
+        const index = method(value, i) ? 0 : 1;
         
         // add it
         prev[index].push(value);
@@ -206,15 +210,15 @@ function partition(arr, method) {
 /**
  * Returns mode from array of numbers.
  * @memberof juliutils
- * @param {Array} arr - Array of numbers.
+ * @param {Array} numbers - Array of numbers.
  * @returns {(Number|undefined)} Mode of numbers, or undefined if array is empty.
  */
-function mode(arr) {
+function mode(numbers) {
     // store number of occurences for each value
     let modeMap = {};
     let maxCount = 0;
     
-    return arr.reduce((maxValue, value) => {
+    return numbers.reduce((maxValue, value) => {
         const count = (modeMap[value] || 0) + 1;
         
         // increment map for value
@@ -241,8 +245,8 @@ function groupBy(arr, key) {
     // if 'key' is a function, set method to 'key'
     const fn = typeof key === 'function' ? key : null;
     
-    return arr.reduce((group, item) => {
-        const value = fn ? fn(item) : item[key];
+    return arr.reduce((group, item, i) => {
+        const value = fn ? fn(item, i) : item[key];
         
         (group[value] = group[value] || []).push(item);
         
@@ -261,8 +265,8 @@ function indexBy(arr, key) {
     // if 'key' is a function, set method to 'key'
     const fn = typeof key === 'function' ? key : null;
     
-    return arr.reduce((group, item) => {
-        const value = fn ? fn(item) : item[key];
+    return arr.reduce((group, item, i) => {
+        const value = fn ? fn(item, i) : item[key];
         
         if (group[value] === undefined) {
             group[value] = item;
@@ -278,17 +282,17 @@ function indexBy(arr, key) {
  * @param {Array} values - Array of values.
  * @returns {Number} Average of all values in array.
  */
-function arrAverage(values) {
-    if (values.length === 0) {
+function arrAverage(numbers) {
+    if (numbers.length === 0) {
         return 0;
     }
     
     // get the sum of all values
-    const sum = values.reduce((prev, num) => {
+    const sum = numbers.reduce((prev, num) => {
         return prev + num;
     }, 0);
     
-    return sum / values.length;
+    return sum / numbers.length;
 }
 
 /**
@@ -369,15 +373,18 @@ function randomString(length) {
  * Picks keys from an object.
  * @memberof juliutils
  * @alias pickKeys
- * @param {Object} object - Object to pick values from.
- * @param {Array} keys - Array of keys to pick.
+ * @param {Object} obj - Object to pick values from.
+ * @param {...(string|string[])} keys - Keys to pick. Keys can also be contained within an array.
  * @returns {Object} Object with picked keys.
  */
-function pluck(object, keys) {
+function pluck(obj, ...keys) {
+    // keys could be either any number of arrays or a list of arguments
+    keys = flatten(keys);
+    
     let result = {};
     
     for (let i = 0; i < keys.length; i++) {
-        result[keys[i]] = object[keys[i]];
+        result[keys[i]] = obj[keys[i]];
     }
     
     return result;
@@ -451,7 +458,7 @@ function createTree(obj, tree, ender) {
  * // { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
  */
 function transformObj(obj, transforms = {}, level = 0) {
-    if (typeof obj !== 'object' || obj === null) {
+    if (typeof obj !== 'object' || obj === null || obj instanceof Date) {
         // nothing we can do
         return obj;
     }
@@ -484,14 +491,69 @@ function transformObj(obj, transforms = {}, level = 0) {
 /**
  * Recursively clones an object's values.
  *
- * This will only clone objects containing basic values (e.g. Strings, numbers).
+ * This may not work this with objects that have complex properties. Use with caution and do not assume.
  * @memberof juliutils
  * @alias clone
  * @param {Object} obj - Object.
  * @returns {Object} Cloned object.
+ * @since 1.0.7 - method clones more than just primitive values
  */
 function deepClone(obj) {
-    return transformObj(obj);
+    // we contain the cloning method within the function since it takes
+    // an argument which should not be passed from outside
+    const cloneObj = (obj, hash = new WeakMap()) => {
+        // https://stackoverflow.com/a/40293777
+        if (Object(obj) !== obj || obj instanceof Function) {
+            return obj;
+        } else if (hash.has(obj)) {
+            // Cyclic reference
+            return hash.get(obj);
+        }
+        
+        // create a new object using the object's given prototype
+        let result = Object.create(Object.getPrototypeOf(obj));
+        
+        try {
+            // this will create a new object using its constructor. this can cause
+            // undesired effects since we're not running the code within the constructor
+            // with its given arguments. if any properties are missing or different afterwards,
+            // they will need to be taken from the source object.
+            // such as if the constructor contained an Object.defineProperty attribute
+            // and the constructor fails to run this can cause issues
+            result = new obj.constructor();
+        } catch(e) {
+            // Constructor failed, create object without running the constructor
+            result = Object.create(Object.getPrototypeOf(obj));
+        }
+        
+        if (obj instanceof Map) {
+            Array.from(obj, ([key, val]) => {
+                return result.set(
+                    cloneObj(key, hash),
+                    cloneObj(val, hash)
+                );
+            });
+        } else if (obj instanceof Set) {
+            Array.from(obj, (key) => {
+                result.add(cloneObj(key, hash));
+            });
+        }
+        
+        // Register in hash    
+        hash.set(obj, result);
+        
+        // Clone and assign enumerable own properties recursively
+        const sourceValues = Object.keys(obj).map((key) => {
+            return {
+                [key]: cloneObj(obj[key], hash)
+            };
+        });
+        
+        // then assign them to the result
+        return Object.assign(result, ...sourceValues);
+    }
+    
+    return cloneObj(obj);
 }
 
 // alias for deepClone
@@ -535,17 +597,17 @@ function isNumber(value) {
 /**
  * Truncates a string with option to add trail at end.
  * @memberof juliutils
- * @param {String} string - String.
+ * @param {String} str - String.
  * @param {Number} length - Length to trim to.
- * @param {String} [trail] - Trailing characters.
+ * @param {String} [trail=''] - Trailing characters.
  * @returns {String} Truncated string.
  */
-function truncate(string, length, trail) {
-    if (string.length > length) {
-        return string.substr(0, length).trim() + (trail || '');
+function truncate(str, length, trail = '') {
+    if (str.length > length) {
+        return str.substr(0, length).trim() + trail;
     }
     
-    return string;
+    return str;
 }
 
 /**
@@ -860,7 +922,7 @@ function deepEqual(a, b) {
  *
  * @example
  * // or using just a string
- * without(['cat', 'orange'], 'orange);
+ * without(['cat', 'orange'], 'orange');
  * // ['cat']
  */
 function without(item, value) {
@@ -1002,12 +1064,16 @@ function roundN(value, places) {
  * // { name: 'Mumbai', population: 12.4 }
  */
 function closest(arr, num, key) {
+    if (arr.length === 0) {
+        return;
+    }
+    
     // if 'key' is a function, set method to 'key'
     const fn = typeof key === 'function' ? key : null;
     const keyIsString = Boolean(typeof key === 'string');
-    const getValue =  (value) => {
+    const getValue =  (value, i) => {
         if (fn) {
-            return fn(value);
+            return fn(value, i);
         } else if (keyIsString) {
             return value[key];
         }
@@ -1021,7 +1087,7 @@ function closest(arr, num, key) {
         // reduce index starts at 1
         if (i === 1) {
             // set the initial value
-            previousValue = getValue(previous);
+            previousValue = getValue(previous, i);
         }
         
         // transform the current value
@@ -1073,7 +1139,9 @@ function chainSort(arr, funcs) {
 
 module.exports = {
     yes,
+    yay,
     no,
+    nay,
     withinNDaysOf,
     printDate,
     printCSVDate,

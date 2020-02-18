@@ -25,3 +25,16 @@
 ### Added
 - "closest" method.
 - "chainSort" method.
+
+## [1.0.7] - 2020-02-18
+### Fixed
+- "deepClone" method creating empty objects from dates.
+
+### Changed
+- "pickKeys" and "pluck" method can now take any number of arguments.
+- "deepClone" method now clones more than just primitive types. It's more deep.
+
+### Added
+- Typescript .d.ts file.
+- "yay" alias for "yes".
+- "nay" alias for "no".
