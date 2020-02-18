@@ -243,7 +243,7 @@ Returns mode from array of numbers.
 
 #### Parameters
 
--   `arr` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of numbers.
+-   `numbers` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of numbers.
 
 Returns **([Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))** Mode of numbers, or undefined if array is empty.
 
@@ -275,6 +275,7 @@ Averages an array of values.
 
 #### Parameters
 
+-   `numbers`  
 -   `values` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of values.
 
 Returns **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Average of all values in array.
@@ -338,8 +339,8 @@ Picks keys from an object.
 
 #### Parameters
 
--   `object` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to pick values from.
--   `keys` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of keys to pick.
+-   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to pick values from.
+-   `keys` **...([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>)** Keys to pick. Keys can also be contained within an array.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object with picked keys.
 
@@ -402,13 +403,17 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Recursively clones an object's values.
 
-This will only clone objects containing basic values (e.g. Strings, numbers).
+This may not work this with objects that have complex properties. Use with caution and do not assume.
 
 #### Parameters
 
 -   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object.
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Cloned object.
+
+**Meta**
+
+-   **since**: 1.0.7 - method clones more than just primitive values
 
 ### arrToKeys
 
@@ -444,9 +449,9 @@ Truncates a string with option to add trail at end.
 
 #### Parameters
 
--   `string` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String.
+-   `str` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** String.
 -   `length` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Length to trim to.
--   `trail` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Trailing characters.
+-   `trail` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Trailing characters. (optional, default `''`)
 
 Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Truncated string.
 
@@ -594,7 +599,7 @@ without(['cat', 'orange'], ['orange]);
 
 ```javascript
 // or using just a string
-without(['cat', 'orange'], 'orange);
+without(['cat', 'orange'], 'orange');
 // ['cat']
 ```
 
