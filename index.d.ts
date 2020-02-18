@@ -1,5 +1,3 @@
-/// <reference types="juliutils" />
-
 export as namespace juliutils;
 export function yes(str: string): boolean;
 export function yay(str: string): boolean;
