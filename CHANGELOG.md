@@ -38,3 +38,7 @@
 - Typescript .d.ts file.
 - "yay" alias for "yes".
 - "nay" alias for "no".
+
+## [1.0.8] - 2020-05-01
+### Added
+- "basicPlural" method in index.d.ts.

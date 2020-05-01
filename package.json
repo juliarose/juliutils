@@ -1,9 +1,17 @@
 {
   "name": "juliutils",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "types": "index.d.ts",
+  "homepage": "https://github.com/juliarose/juliutils#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juliarose/juliutils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juliarose/juliutils/issues"
+  },
   "scripts": {
     "test": "jest",
     "watch": "jest --watch .js",
@@ -19,6 +27,6 @@
     "eslint-plugin-jsdoc": "^15.8.4",
     "jest": "^24.9.0"
   },
-  "author": "Julia Rose",
+  "author": "Julia Rose <juliarosedeveloper@gmail.com>",
   "license": "MIT"
 }

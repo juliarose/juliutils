@@ -28,6 +28,7 @@ export function clone(obj: Object): Object;
 export function arrToKeys(keys: string, value: any): any;
 export function isNumber(value: any): boolean;
 export function truncate(str: string, length: number, trail?: string): string;
+export function basicPlural(singular: string, plural: string, value: any): string;
 export function valuesAsKeys(obj: Object): Object;
 export function escapeCSV(str: string): string;
 export function escapeRegExp(str: string): string;
