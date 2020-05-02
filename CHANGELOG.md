@@ -49,3 +49,7 @@
 
 ### Fixed
 - "uniq" method requiring 2 arguments in index.d.ts.
+
+## [1.1.0] - 2020-05-01
+### Fixed
+- index.d.ts file.

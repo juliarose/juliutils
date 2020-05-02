@@ -7,7 +7,7 @@ export function withinNDaysOf(date1: Date, date2: Date, days?: number): boolean;
 export function printDate(date: Date, seperator?: string): string;
 export function printCSVDate(date: Date): string;
 export function omitEmpty(obj: Object): Object;
-export function uniq(arr: any[], filter>: string | ((value: any, i?: number, array?: any[]) => boolean)): any[];
+export function uniq(arr: any[], filter?: string | ((value: any, i?: number, array?: any[]) => boolean)): any[];
 export function difference(arr1: any[], arr2: any[]): any[]
 export function partition(arr: any[], method: (value: any, i?: number) => boolean): any[][]
 export function mode(numbers: number[]): number
