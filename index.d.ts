@@ -41,4 +41,4 @@ export function without(item: Object | any[], value: any): Object | any[];
 export function shorten(str: string, maxLength: number, seperator: string): string;
 export function roundN(value: number, places: number): number;
 export function closest(arr: any[], num: number, key: string | ((value: any, i?: number) => number)): any;
-export function chainSort(arr: any[], funcs: ((a: any, b: any) => boolean)[]): any[];
+export function chainSort(arr: any[], funcs: ((a: any, b: any) => number)[]): any[];

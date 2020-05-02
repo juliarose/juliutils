@@ -53,3 +53,7 @@
 ## [1.1.0] - 2020-05-01
 ### Fixed
 - index.d.ts file.
+
+## [1.1.1] - 2020-05-01
+### Fixed
+- "chainSort" method requiring boolean return values in index.d.ts.
