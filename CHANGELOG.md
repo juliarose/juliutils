@@ -42,3 +42,10 @@
 ## [1.0.8] - 2020-05-01
 ### Added
 - "basicPlural" method in index.d.ts.
+
+## [1.0.9] - 2020-05-01
+### Fixed
+- "basicPlural" method using any rather than number in index.d.ts.
+
+### Fixed
+- "uniq" method requiring 2 arguments in index.d.ts.
