@@ -81,22 +81,24 @@ My personal collection of utility functions.
         -   [Examples](#examples-7)
     -   [delayPromise](#delaypromise)
         -   [Parameters](#parameters-32)
-    -   [deepEqual](#deepequal)
+    -   [sleep](#sleep)
         -   [Parameters](#parameters-33)
-    -   [without](#without)
+    -   [deepEqual](#deepequal)
         -   [Parameters](#parameters-34)
+    -   [without](#without)
+        -   [Parameters](#parameters-35)
         -   [Examples](#examples-8)
     -   [shorten](#shorten)
-        -   [Parameters](#parameters-35)
+        -   [Parameters](#parameters-36)
         -   [Examples](#examples-9)
     -   [roundN](#roundn)
-        -   [Parameters](#parameters-36)
+        -   [Parameters](#parameters-37)
         -   [Examples](#examples-10)
     -   [closest](#closest)
-        -   [Parameters](#parameters-37)
+        -   [Parameters](#parameters-38)
         -   [Examples](#examples-11)
     -   [chainSort](#chainsort)
-        -   [Parameters](#parameters-38)
+        -   [Parameters](#parameters-39)
         -   [Examples](#examples-12)
 
 ## juliutils
@@ -564,6 +566,16 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 **Meta**
 
 -   **since**: 1.0.1 - The time parameter comes first.
+
+### sleep
+
+Sleeps for a set amount of time.
+
+#### Parameters
+
+-   `time` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** Time in ms to delay.
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Promise that resolves after the given delay.
 
 ### deepEqual
 

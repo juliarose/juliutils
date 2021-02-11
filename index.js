@@ -775,7 +775,7 @@ function takeNRandom(arr, num) {
  * promiseSeries(urls.map(url => () => $.ajax(url)))
  *     .then(response => console.log(response));
  */
-function promiseSeries(funcs) {
+async function promiseSeries(funcs) {
     // derived from, with some modifications to functionality
     // - all previous resolved values in passed to next resolve in series
     // - but there's a catch
@@ -811,11 +811,23 @@ function promiseSeries(funcs) {
  * @returns {Promise} Promise that resolves after the given delay.
  * @since 1.0.1 - The time parameter comes first.
  */
-function delayPromise(time, value) {
+async function delayPromise(time, value) {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(value);
         }, time);
+    });
+}
+
+/**
+ * Sleeps for a set amount of time.
+ * @memberof juliutils
+ * @param {number} [time] - Time in ms to delay.
+ * @returns {Promise} Promise that resolves after the given delay.
+ */
+async function sleep(time) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, time);
     });
 }
 
@@ -1175,6 +1187,7 @@ module.exports = {
     takeNRandom,
     promiseSeries,
     delayPromise,
+    sleep,
     deepEqual,
     without,
     shorten,

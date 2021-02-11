@@ -36,6 +36,7 @@ export function escapeHTML(str: string): string;
 export function takeNRandom(arr: any[], num: number): any[];
 export function promiseSeries(funcs: ((previousResolvedValue?: any) => Promise<any> )[]): Promise<any[]>;
 export function delayPromise(time: number, value?: any): Promise<any>;
+export function sleep(time: number): Promise<void>;
 export function deepEqual(a: any, b: any): boolean;
 export function without(item: Object | any[], value: any): Object | any[];
 export function shorten(str: string, maxLength: number, seperator: string): string;
