@@ -43,21 +43,22 @@ My personal collection of utility functions.
         -   [Parameters](#parameters-15)
     -   [range](#range)
         -   [Parameters](#parameters-16)
+        -   [Examples](#examples-2)
     -   [randomString](#randomstring)
         -   [Parameters](#parameters-17)
     -   [pickKeys](#pickkeys)
         -   [Parameters](#parameters-18)
     -   [createTree](#createtree)
         -   [Parameters](#parameters-19)
-        -   [Examples](#examples-2)
+        -   [Examples](#examples-3)
     -   [transformObj](#transformobj)
         -   [Parameters](#parameters-20)
-        -   [Examples](#examples-3)
+        -   [Examples](#examples-4)
     -   [clone](#clone)
         -   [Parameters](#parameters-21)
     -   [arrToKeys](#arrtokeys)
         -   [Parameters](#parameters-22)
-        -   [Examples](#examples-4)
+        -   [Examples](#examples-5)
     -   [isNumber](#isnumber)
         -   [Parameters](#parameters-23)
     -   [truncate](#truncate)
@@ -66,7 +67,7 @@ My personal collection of utility functions.
         -   [Parameters](#parameters-25)
     -   [valuesAsKeys](#valuesaskeys)
         -   [Parameters](#parameters-26)
-        -   [Examples](#examples-5)
+        -   [Examples](#examples-6)
     -   [escapeCSV](#escapecsv)
         -   [Parameters](#parameters-27)
     -   [escapeRegExp](#escaperegexp)
@@ -75,10 +76,10 @@ My personal collection of utility functions.
         -   [Parameters](#parameters-29)
     -   [takeNRandom](#takenrandom)
         -   [Parameters](#parameters-30)
-        -   [Examples](#examples-6)
+        -   [Examples](#examples-7)
     -   [promiseSeries](#promiseseries)
         -   [Parameters](#parameters-31)
-        -   [Examples](#examples-7)
+        -   [Examples](#examples-8)
     -   [delayPromise](#delaypromise)
         -   [Parameters](#parameters-32)
     -   [sleep](#sleep)
@@ -87,19 +88,19 @@ My personal collection of utility functions.
         -   [Parameters](#parameters-34)
     -   [without](#without)
         -   [Parameters](#parameters-35)
-        -   [Examples](#examples-8)
+        -   [Examples](#examples-9)
     -   [shorten](#shorten)
         -   [Parameters](#parameters-36)
-        -   [Examples](#examples-9)
+        -   [Examples](#examples-10)
     -   [roundN](#roundn)
         -   [Parameters](#parameters-37)
-        -   [Examples](#examples-10)
+        -   [Examples](#examples-11)
     -   [closest](#closest)
         -   [Parameters](#parameters-38)
-        -   [Examples](#examples-11)
+        -   [Examples](#examples-12)
     -   [chainSort](#chainsort)
         -   [Parameters](#parameters-39)
-        -   [Examples](#examples-12)
+        -   [Examples](#examples-13)
 
 ## juliutils
 
@@ -316,12 +317,19 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 ### range
 
-Create range of numbers from low to high.
+Creates a range of numbers from start to stop, not including the stop value.
 
 #### Parameters
 
--   `low` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Low number.
--   `high` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** High number.
+-   `start` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number to start at.
+-   `stop` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number to stop at.
+
+#### Examples
+
+```javascript
+range(1, 3);
+// [1, 2]
+```
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of numbers in range.
 
@@ -405,7 +413,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Recursively clones an object's values.
 
-This may not work this with objects that have complex properties. Use with caution and do not assume.
+This works for simple objects containing simple types like strings, number, and dates. Complex objects containing state may have issues..
 
 #### Parameters
 
@@ -498,7 +506,7 @@ Returns **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### escapeRegExp
 
-Escape a string in RegExp.
+Escapes a string in RegExp.
 
 #### Parameters
 
