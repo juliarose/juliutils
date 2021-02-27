@@ -338,14 +338,18 @@ function flattenCompact(arr, deep) {
 }
 
 /**
- * Create range of numbers from low to high.
+ * Creates a range of numbers from start to stop, not including the stop value.
  * @memberof juliutils
- * @param {Number} low - Low number.
- * @param {Number} high - High number.
+ * @param {Number} start - Number to start at.
+ * @param {Number} stop - Number to stop at.
  * @returns {Array} Array of numbers in range.
+ *
+ * @example
+ * range(1, 3);
+ * // [1, 2]
  */
-function range(low, high) {
-    return Array(high - low).fill(low).map((value, i) => value + i);
+function range(start, stop) {
+    return Array(stop - start).fill(start).map((value, i) => value + i);
 }
 
 /**
@@ -491,7 +495,7 @@ function transformObj(obj, transforms = {}, level = 0) {
 /**
  * Recursively clones an object's values.
  *
- * This may not work this with objects that have complex properties. Use with caution and do not assume.
+ * This works for simple objects containing simple types like strings, number, and dates. Complex objects containing state may have issues..
  * @memberof juliutils
  * @alias clone
  * @param {Object} obj - Object.
@@ -660,7 +664,7 @@ function escapeCSV(str) {
 }
 
 /**
- * Escape a string in RegExp.
+ * Escapes a string in RegExp.
  * @memberof juliutils
  * @param {String} str - String.
  * @returns {String} Escaped string.
@@ -992,7 +996,7 @@ function without(item, value) {
  * // '123x456'
  */
 function shorten(str, maxLength, seperator = ' ') {
-    // string is already short eniugh
+    // string is already short enough
     if (str.length < maxLength) {
         return str;
     }
