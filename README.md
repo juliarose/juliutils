@@ -608,12 +608,12 @@ Removes elements from an object or array by value.
 #### Examples
 
 ```javascript
-without({ name: 'cat', color: 'orange' }, ['orange]);
+without({ name: 'cat', color: 'orange' }, ['orange']);
 // { name: 'cat' }
 ```
 
 ```javascript
-without(['cat', 'orange'], ['orange]);
+without(['cat', 'orange'], ['orange']);
 // ['cat']
 ```
 

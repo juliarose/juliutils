@@ -152,9 +152,9 @@ function uniq(arr, filter) {
         const value = (
             // the filter is a function
             filterIsFunction ?
-            filter(item, i, array) :
-            // the filter is a string
-            item[filter]
+                filter(item, i, array) :
+                // the filter is a string
+                item[filter]
         );
         
         // the value for this item already exists
@@ -306,13 +306,19 @@ function flatten(arr, deep) {
     return arr.reduce((result, value) => {
         if (Array.isArray(value)) {
             if (deep) {
-                return [...result, ...flatten(value, deep)];
+                result = result.concat(flatten(value, deep));
+                
+                return result;
             }
             
-            return [...result, ...value];
+            result = result.concat(value);
+            
+            return result;
         }
         
-        return [...result, value];
+        result.push(value);
+        
+        return result;
     }, []);
 }
 
@@ -929,11 +935,11 @@ function deepEqual(a, b) {
  * @returns {(Object|Array)} Object or array without the given values.
  * 
  * @example
- * without({ name: 'cat', color: 'orange' }, ['orange]);
+ * without({ name: 'cat', color: 'orange' }, ['orange']);
  * // { name: 'cat' }
  *
  * @example
- * without(['cat', 'orange'], ['orange]);
+ * without(['cat', 'orange'], ['orange']);
  * // ['cat']
  *
  * @example
