@@ -58,7 +58,7 @@
 ### Fixed
 - "chainSort" method requiring boolean return values in index.d.ts.
 
-## [1.1.2] - 2021-10-27
+## [1.1.3] - 2021-10-27
 ### Changed
 - "flatten" method has improved performance.
 
