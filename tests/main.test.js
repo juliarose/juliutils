@@ -30,7 +30,7 @@ it('withinNDaysOf (half a day behind, 1 day difference)', () => {
     const ONE_DAY = 24 * 60 * 60 * 1000;
     const date1 = new Date();
     // a half a day behind date1
-    const date2 = new Date() - (ONE_DAY / 2);
+    const date2 = new Date(new Date() - (ONE_DAY / 2));
     
     expect(juliutils.withinNDaysOf(date1, date2, 1)).toBe(true);
 });
@@ -39,7 +39,7 @@ it('withinNDaysOf (2 days behind, 1 day difference)', () => {
     const ONE_DAY = 24 * 60 * 60 * 1000;
     const date1 = new Date();
     // 2 days behind date1
-    const date2 = new Date() - (ONE_DAY * 2);
+    const date2 = new Date(new Date() - (ONE_DAY * 2));
     
     expect(juliutils.withinNDaysOf(date1, date2, 1)).toBe(false);
 });
@@ -48,7 +48,7 @@ it('printDate (July 7th, 2019)', () => {
     const date = new Date(2019, 6, 7);
     const formatted = juliutils.printDate(date);
     
-    expect(formatted).toBe('7/7/2019');
+    expect(formatted).toBe('2019/7/7');
 });
 
 it('printCSVDate (July 7th, 2019)', () => {
@@ -276,7 +276,7 @@ it('arrAverage', () => {
     expect(average).toBe(2);
 });
 
-it('flatten', () => {
+it('shallowFlatten', () => {
     const arr = [
         [
             1
@@ -288,12 +288,12 @@ it('flatten', () => {
             ]
         ]
     ];
-    const result = juliutils.flatten(arr);
+    const result = juliutils.shallowFlatten(arr);
     
     expect(result).toEqual([1, 2, [3]]);
 });
 
-it('flatten (deep)', () => {
+it('flatten', () => {
     const arr = [
         [
             1

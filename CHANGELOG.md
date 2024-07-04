@@ -1,32 +1,55 @@
 # Changelog
 
-## [1.0.2] - 2019-12-13
-### Added
-- This changelog file.
-- "deepEqual" method.
-- "without" method.
+## [1.2.0] - 2024-06-04
 
-## [1.0.3] - 2019-12-22
 ### Added
-- "shorten" method.
+- "average" method which replaces "arrAverage".
+- "mean" method, which is an alias for "average".
+- "shallowFlatten" method.
 
-## [1.0.4] - 2019-12-23
-### Added
-- "roundN" method.
+### Changed
+- Better JSDoc and types.
+- "flattenCompact" method now flattens only recursively.
+- "flatten" method now flattens only recursively.
+- "printCSV" method now uses YYYY/mm/dd format for dates.
 
 ### Fixed
-- An issue with the "shorten" method.
+- "range" method not working with negative numbers or reverse ranges.
+- "printCSV" method using "tostring" instead of "toString" probably causing an error.
 
-## [1.0.5] - 2019-12-31
-### Added
-- filter parameter to "uniq" method.
+## [1.1.3] - 2021-10-27
 
-## [1.0.6] - 2020-01-04
+### Changed
+- "flatten" method has improved performance.
+
+### Fixed
+- Some notes.
+
+## [1.1.1] - 2020-05-01
+
+### Fixed
+- "chainSort" method requiring boolean return values in index.d.ts.
+
+## [1.1.0] - 2020-05-01
+
+### Fixed
+- index.d.ts file.
+
+## [1.0.9] - 2020-05-01
+
+### Fixed
+- "basicPlural" method using any rather than number in index.d.ts.
+
+### Fixed
+- "uniq" method requiring 2 arguments in index.d.ts.
+
+## [1.0.8] - 2020-05-01
+
 ### Added
-- "closest" method.
-- "chainSort" method.
+- "basicPlural" method in index.d.ts.
 
 ## [1.0.7] - 2020-02-18
+
 ### Fixed
 - "deepClone" method creating empty objects from dates.
 
@@ -39,28 +62,28 @@
 - "yay" alias for "yes".
 - "nay" alias for "no".
 
-## [1.0.8] - 2020-05-01
+## [1.0.6] - 2020-01-04
+
 ### Added
-- "basicPlural" method in index.d.ts.
+- "closest" method.
+- "chainSort" method.
 
-## [1.0.9] - 2020-05-01
-### Fixed
-- "basicPlural" method using any rather than number in index.d.ts.
+## [1.0.5] - 2019-12-31
 
-### Fixed
-- "uniq" method requiring 2 arguments in index.d.ts.
+### Added
+- filter parameter to "uniq" method.
 
-## [1.1.0] - 2020-05-01
-### Fixed
-- index.d.ts file.
+## [1.0.4] - 2019-12-23
 
-## [1.1.1] - 2020-05-01
-### Fixed
-- "chainSort" method requiring boolean return values in index.d.ts.
-
-## [1.1.3] - 2021-10-27
-### Changed
-- "flatten" method has improved performance.
+### Added
+- "roundN" method.
 
 ### Fixed
-- Some notes.
+- An issue with the "shorten" method.
+
+## [1.0.2] - 2019-12-13
+
+### Added
+- This changelog file.
+- "deepEqual" method.
+- "without" method.

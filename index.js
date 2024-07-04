@@ -3,22 +3,21 @@
  * @module juliutils
  */
 
+// @ts-check
+
 /**
  * Interprets whether a string means yes or not.
- * @memberof juliutils
- * @param {String} str - Test string.
- * @returns {Boolean} No?
+ * @param {string} str - Test string.
+ * @returns {boolean} No?
  *
  * @example
- * yes('yes');
- * // true
- *
+ * yes('yes'); // true
+ * 
  * @example
- * yes('yup');
- * // true
+ * yes('yup'); // true
+ * 
  * @example
- * yes('no');
- * // false
+ * yes('no'); // false
  */
 function yes(str) {
     // "yes"
@@ -39,21 +38,17 @@ const yay = yes;
 
 /**
  * Interprets whether a string means no or not.
- * @memberof juliutils
- * @param {String} str - Test string.
- * @returns {Boolean} Yes?
+ * @param {string} str - Test string.
+ * @returns {boolean} Yes?
  *
  * @example
- * no('no');
- * // true
+ * no('no'); // true
  *
  * @example
- * no('nope');
- * // true
+ * no('nope'); // true
  *
  * @example
- * no('yes');
- * // false
+ * no('yes'); // false
  */
 function no(str) {
     // "no"
@@ -70,39 +65,36 @@ const nay = no;
 
 /**
  * Checks whether two dates are within N days of each other.
- * @memberof juliutils
  * @param {Date} date1 - First date.
  * @param {Date} date2 - Second date.
- * @param {Number} [days=1] - Number of days.
- * @returns {Boolean} Whether the two dates are within N days of each other.
+ * @param {number} [days=1] - Number of days.
+ * @returns {boolean} Whether the two dates are within N days of each other.
  */
 function withinNDaysOf(date1, date2, days = 1) {
     const ONE_DAY = 24 * 60 * 60 * 1000;
-    const difference = Math.abs(date1 - date2);
+    const difference = Math.abs(date1.getTime() - date2.getTime());
     
     return difference <= (ONE_DAY * days);
 }
 
 /**
- * Prints a date as a string in mm/dd/YYYY format.
- * @memberof juliutils
+ * Prints a date as a string in YYYY/mm/dd format.
  * @param {Date} date - Date to print.
- * @param {String} [separator='/'] - Separator used between dates.
- * @returns {String} String of date.
+ * @param {string} [separator='/'] - Separator used between dates.
+ * @returns {string} String of date.
  */
 function printDate(date, separator = '/') {
     return [
+        date.getFullYear(),
         date.getMonth() + 1,
-        date.getDate(),
-        date.getFullYear()
+        date.getDate()
     ].join(separator);
 }
 
 /**
  * Prints a date for a CSV file in YYYY/mm/dd format.
- * @memberof juliutils
  * @param {Date} date - Date to print.
- * @returns {String} String of date to be inserted into a CSV cell.
+ * @returns {string} String of date to be inserted into a CSV cell.
  */
 function printCSVDate(date) {
     return [
@@ -114,12 +106,11 @@ function printCSVDate(date) {
 
 /**
  * Omits keys with values that are empty from object.
- * @memberof juliutils
- * @param {Object} obj - Object to omit values from.
- * @returns {Object} Object with null, undefined, or empty string values omitted.
+ * @param {Object<string, *>} obj - Object to omit values from.
+ * @returns {Object<string, *>} Object with null, undefined, or empty string values omitted.
  */
 function omitEmpty(obj) {
-    let result = {};
+    const result = {};
     
     for (let k in obj) {
         if (obj[k] != null && obj[k] !== '') {
@@ -132,9 +123,9 @@ function omitEmpty(obj) {
 
 /**
  * Gets unique values from array.
- * @memberof juliutils
- * @param {Array} arr - Array of items.
- * @param {(String|function)} [filter] - String or function to filter by.
+ * @template T
+ * @param {T[]} arr - Array of items.
+ * @param {(string | function(T, number, T[]): (number | string))} [filter] - String or function to filter by.
  * @returns {Array} Array with unique values.
  * @since 1.0.5 - The filter parameter was added.
  */
@@ -144,14 +135,14 @@ function uniq(arr, filter) {
         return [...new Set(arr)];
     }
     
-    const filterIsFunction = typeof filter === 'function';
     // for storing values
-    let valueList = {};
+    /** @type {Object<(string | number), boolean>} */
+    const valueList = {};
     
     return arr.filter((item, i, array) => {
         const value = (
             // the filter is a function
-            filterIsFunction ?
+            typeof filter === 'function' ?
                 filter(item, i, array) :
                 // the filter is a string
                 item[filter]
@@ -171,10 +162,9 @@ function uniq(arr, filter) {
 
 /**
  * Gets difference between two arrays.
- * @memberof juliutils
- * @param {Array} arr1 - First array.
- * @param {Array} arr2 - Second array.
- * @returns {Array} Array with values removed.
+ * @param {*[]} arr1 - First array.
+ * @param {*[]} arr2 - Second array.
+ * @returns {*[]} Array with values removed.
  */
 function difference(arr1, arr2) {
     return arr1.filter((a) => {
@@ -184,38 +174,97 @@ function difference(arr1, arr2) {
 
 /**
  * Partitions array based on conditions.
- * @memberof juliutils
- * @param {Array} arr - Array.
- * @param {Function} method - Function to satisfy.
- * @returns {Array} Partitioned array.
+ * @template T
+ * @param {T[]} arr - Array.
+ * @param {function(T): boolean} method - Function to satisfy.
+ * @returns {[T[], T[]]} Partitioned array.
  */
 function partition(arr, method) {
-    return arr.reduce((prev, value, i) => {
-        // pick which index to push to based on
-        // thruthiness of return value from method
-        const index = method(value, i) ? 0 : 1;
-        
-        // add it
-        prev[index].push(value);
-        
-        return prev;
-    }, [
+    // create an array with two empty arrays to be filled
+    /** @type {[T[], T[]]} */
+    let result = [
         // for truthy values
         [],
         // for falsy values
         []
-    ]);
+    ];
+    
+    for (let i = 0; i < arr.length; i++) {
+        let index = method(arr[i]) ? 0 : 1;
+        
+        result[index].push(arr[i]);
+    }
+    
+    return result;
 }
 
 /**
- * Returns mode from array of numbers.
- * @memberof juliutils
- * @param {Array} numbers - Array of numbers.
- * @returns {(Number|undefined)} Mode of numbers, or undefined if array is empty.
+ * Averages an array of numbers.
+ * @param {number[]} numbers - Array of numbers.
+ * @returns {number} Average of all numbers in array.
+ */
+function average(numbers) {
+    if (numbers.length === 0) {
+        return 0;
+    }
+    
+    // get the sum of all values
+    const sum = numbers.reduce((prev, num) => {
+        return prev + num;
+    }, 0);
+    
+    return sum / numbers.length;
+}
+
+/**
+ * Averages an array of numbers.
+ * @param {number[]} numbers - Array of numbers.
+ * @returns {number} Average of all numbers in array.
+ * @deprecated Since version 1.1.4 - Use `average` instead.
+ * @alias average
+ */
+const arrAverage = average;
+
+/**
+ * Gets the mean of an array of numbers.
+ * @param {number[]} numbers - Array of numbers.
+ * @returns {number} Average of all numbers in array.
+ */
+const mean = average;
+
+/**
+ * Gets the median from an array of numbers.
+ * @param {number[]} numbers - Array of numbers.
+ * @returns {(number | undefined)} Median of numbers, or undefined if array is empty.
+ */
+function median(numbers) {
+    if (numbers.length === 0) {
+        return;
+    }
+    
+    // sort numbers
+    const sorted = numbers.slice().sort((a, b) => a - b);
+    const length = sorted.length;
+    const middle = Math.floor(length / 2);
+    
+    // if the length is odd, return the middle value
+    if (length % 2) {
+        return sorted[middle];
+    }
+    
+    // return the average of the two middle values
+    return (sorted[middle - 1] + sorted[middle]) / 2;
+
+}
+
+/**
+ * Gets mode from array of numbers.
+ * @param {number[]} numbers - Array of numbers.
+ * @returns {(number | undefined)} Mode of numbers, or undefined if array is empty.
  */
 function mode(numbers) {
     // store number of occurences for each value
-    let modeMap = {};
+    const modeMap = {};
     let maxCount = 0;
     
     return numbers.reduce((maxValue, value) => {
@@ -236,40 +285,21 @@ function mode(numbers) {
 
 /**
  * Groups an array by value from key.
- * @memberof juliutils
- * @param {Array} arr - Array.
- * @param {(String|Function)} key - Key to take value from.
- * @returns {Object} Object of groups.
+ * @template T
+ * @param {T[]} arr - Array.
+ * @param {(string | function(T): (number | string))} key - Key to take value from.
+ * @returns {Object<string, T[]>} Object of groups.
  */
 function groupBy(arr, key) {
-    // if 'key' is a function, set method to 'key'
-    const fn = typeof key === 'function' ? key : null;
-    
-    return arr.reduce((group, item, i) => {
-        const value = fn ? fn(item, i) : item[key];
-        
-        (group[value] = group[value] || []).push(item);
-        
-        return group;
-    }, {});
-}
-
-/**
- * Indexes an array by value from key.
- * @memberof juliutils
- * @param {Array} arr - Array.
- * @param {(String|Function)} key - Key to take value from.
- * @returns {Object} Indexed object.
- */
-function indexBy(arr, key) {
-    // if 'key' is a function, set method to 'key'
-    const fn = typeof key === 'function' ? key : null;
-    
-    return arr.reduce((group, item, i) => {
-        const value = fn ? fn(item, i) : item[key];
-        
-        if (group[value] === undefined) {
-            group[value] = item;
+    return arr.reduce((group, item) => {
+        if (typeof key === 'function') {
+            const value = key(item);
+            
+            (group[value] = group[value] || []).push(item);
+        } else {
+            const value = item[key];
+            
+            (group[value] = group[value] || []).push(item);
         }
         
         return group;
@@ -277,40 +307,59 @@ function indexBy(arr, key) {
 }
 
 /**
- * Averages an array of values.
- * @memberof juliutils
- * @param {Array} values - Array of values.
- * @returns {Number} Average of all values in array.
+ * Indexes an array by value from key.
+ * @template T
+ * @param {T[]} arr - Array.
+ * @param {(string | function(T): (string | number))} key - Key to take value from.
+ * @returns {Object<string, T>} Indexed object.
  */
-function arrAverage(numbers) {
-    if (numbers.length === 0) {
-        return 0;
-    }
-    
-    // get the sum of all values
-    const sum = numbers.reduce((prev, num) => {
-        return prev + num;
-    }, 0);
-    
-    return sum / numbers.length;
+function indexBy(arr, key) {
+    return arr.reduce((group, item) => {
+        if (typeof key === 'function') {
+            const value = key(item);
+            
+            if (group[value] === undefined) {
+                group[value] = item;
+            }
+        } else {
+            const value = item[key];
+            
+            if (group[value] === undefined) {
+                group[value] = item;
+            }
+        }
+        
+        return group;
+    }, {});
 }
 
 /**
  * Flattens an array.
- * @memberof juliutils
- * @param {Array} arr - Array to flatten.
- * @param {Boolean} [deep] - Recursive flatten?
- * @returns {Array} Flattened array.
+ * @param {(*[] | *)[]} arr - Array to flatten.
+ * @returns {*[]} Flattened array.
  */
-function flatten(arr, deep) {
-    return arr.reduce((result, value) => {
+function flatten(arr) {
+    return arr.reduce((/** @type {(*[] | *)[]} */ result, value) => {
         if (Array.isArray(value)) {
-            if (deep) {
-                result = result.concat(flatten(value, deep));
-                
-                return result;
-            }
+            result = result.concat(flatten(value));
             
+            return result;
+        }
+        
+        result.push(value);
+        
+        return result;
+    }, []);
+}
+
+/**
+ * Flattens an array (shallow).
+ * @param {(*[] | *)[]} arr - Array to flatten.
+ * @returns {(*[] | *)[]} Flattened array.
+ */
+function shallowFlatten(arr) {
+    return arr.reduce((/** @type {(*[] | *)[]} */ result, value) => {
+        if (Array.isArray(value)) {
             result = result.concat(value);
             
             return result;
@@ -324,9 +373,8 @@ function flatten(arr, deep) {
 
 /**
  * Removes all falsy values from an array.
- * @memberof juliutils
- * @param {Array} arr - Array to compact.
- * @returns {Array} Compacted array.
+ * @param {*[]} arr - Array to compact.
+ * @returns {*[]} Compacted array.
  */
 function compact(arr) {
     return arr.filter(Boolean);
@@ -334,37 +382,43 @@ function compact(arr) {
 
 /**
  * Flattens and compacts array.
- * @memberof juliutils
- * @param {Array} arr - Array to flatten and compact.
- * @param {Boolean} [deep] - Whether the array should be flattened recursively.
- * @returns {Array} Flattened and compacted array.
+ * @param {(*[] | *)[]} arr - Array to flatten.
+ * @param {boolean} [deep] - Whether to deeply flatten array.
+ * @returns {(*[] | *)[]} Flattened and compacted array.
+ * @deprecated Since version 1.1.4 - Use `flatten` and `compact` separately.
  */
 function flattenCompact(arr, deep) {
-    return compact(flatten(arr, deep));
+    if (deep) {
+        return compact(flatten(arr));
+    }
+    
+    return compact(shallowFlatten(arr));
 }
 
 /**
- * Creates a range of numbers from start to stop, not including the stop value.
- * @memberof juliutils
- * @param {Number} start - Number to start at.
- * @param {Number} stop - Number to stop at.
+ * Creates a range of numbers from start to stop, non-inclusive.
+ * @param {number} start - Number to start at.
+ * @param {number} end - Number to end at.
  * @returns {Array} Array of numbers in range.
  *
  * @example
- * range(1, 3);
- * // [1, 2]
+ * range(1, 3); // [1, 2]
  */
-function range(start, stop) {
-    return Array(stop - start).fill(start).map((value, i) => value + i);
+function range(start, end) {
+    // if the start is greater than the end, we need to decrement
+    const direction = start < end ? 1 : -1;
+    
+    return Array(Math.abs(end - start))
+        .fill(start)
+        .map((value, i) => value + (i * direction));
 }
 
 /**
  * Create a random string.
- * @memberof juliutils
  * @param {Number} [length=10] - Length of string.
  * @returns {String} Random string.
  */
-function randomString(length) {
+function randomString(length = 10) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
     const count = characters.length;
     let str = '';
@@ -381,20 +435,18 @@ function randomString(length) {
 
 /**
  * Picks keys from an object.
- * @memberof juliutils
- * @alias pickKeys
  * @param {Object} obj - Object to pick values from.
  * @param {...(string|string[])} keys - Keys to pick. Keys can also be contained within an array.
  * @returns {Object} Object with picked keys.
+ * @alias pickKeys
  */
 function pluck(obj, ...keys) {
     // keys could be either any number of arrays or a list of arguments
-    keys = flatten(keys);
-    
-    let result = {};
+    const flattenedKeys = flatten(keys);
+    const result = {};
     
     for (let i = 0; i < keys.length; i++) {
-        result[keys[i]] = obj[keys[i]];
+        result[keys[i]] = obj[flattenedKeys[i]];
     }
     
     return result;
@@ -407,17 +459,15 @@ const pickKeys = pluck;
  * Creates a tree within an object.
  *
  * Modifies the original object.
- * @memberof juliutils
  * @param {Object} obj - Object to build tree on.
  * @param {Array} tree - Tree to build on 'obj'.
- * @param {*} [ender] - Any value to use as the end value.
+ * @param {*} [tail] - Any value to use as the tail.
  * @returns {Object} The same object passed as 'obj'.
  *
  * @example
- * createTree({}, ['fruit', 'color'], 'red');
- * // { fruit: { color: 'red' } }
+ * createTree({}, ['fruit', 'color'], 'red'); // { fruit: { color: 'red' } }
  */
-function createTree(obj, tree, ender) {
+function createTree(obj, tree, tail) {
     let current = obj;
     
     for (let i = 0; i < tree.length; i++) {
@@ -426,7 +476,7 @@ function createTree(obj, tree, ender) {
         // check that the key is present
         if (!(key in current)) {
             if (tree.length - 1 === i) {
-                current[key] = ender;
+                current[key] = tail;
             } else {
                 current[key] = {};
             }
@@ -442,12 +492,11 @@ function createTree(obj, tree, ender) {
  * Recursively transforms key/values in object, including array values.
  *
  * Also can act as a basic deep clone method.
- * @memberof juliutils
  * @param {Object} obj - Object to transform.
- * @param {Object} [transforms={}] - Object containing transformation functions.
- * @param {Function} [transform.keys] - Function for transforming keys from 'obj'.
- * @param {Function} [transform.values] - Function for transforming values from 'obj'.
- * @param {Number} [level=0] - Level of recursion, passed as the 2nd argument to a transform function.
+ * @param {Object} transforms - Object containing transformation functions.
+ * @param {function(string, number): *} [transforms.keys] - Function for transforming keys from 'obj'.
+ * @param {function(*, number): *} [transforms.values] - Function for transforming values from 'obj'.
+ * @param {number} [level=0] - Level of recursion, passed as the 2nd argument to a transform function.
  * @returns {Object} Transformed object.
  *
  * @example
@@ -467,7 +516,7 @@ function createTree(obj, tree, ender) {
  * });
  * // { fruit_apple: 'GREEN', fruit_orange: 'ORANGE', fruit_cherry: { color: 'RED' } }
  */
-function transformObj(obj, transforms = {}, level = 0) {
+function transformObj(obj, transforms, level = 0) {
     if (typeof obj !== 'object' || obj === null || obj instanceof Date) {
         // nothing we can do
         return obj;
@@ -501,17 +550,17 @@ function transformObj(obj, transforms = {}, level = 0) {
 /**
  * Recursively clones an object's values.
  *
- * This works for simple objects containing simple types like strings, number, and dates. Complex objects containing state may have issues..
- * @memberof juliutils
- * @alias clone
+ * This works for simple objects containing simple types like strings, number, and dates. Complex objects containing 
+ * state may have issues.
  * @param {Object} obj - Object.
  * @returns {Object} Cloned object.
  * @since 1.0.7 - method clones more than just primitive values
+ * @alias clone
  */
 function deepClone(obj) {
     // we contain the cloning method within the function since it takes
     // an argument which should not be passed from outside
-    const cloneObj = (obj, hash = new WeakMap()) => {
+    const cloneObj = (/** @type {object} */ obj, hash = new WeakMap()) => {
         // https://stackoverflow.com/a/40293777
         if (Object(obj) !== obj || obj instanceof Function) {
             return obj;
@@ -561,7 +610,7 @@ function deepClone(obj) {
         
         // then assign them to the result
         return Object.assign(result, ...sourceValues);
-    }
+    };
     
     return cloneObj(obj);
 }
@@ -571,10 +620,9 @@ const clone = deepClone;
 
 /**
  * Creates an object from an array of keys.
- * @memberof juliutils
- * @param {Array} keys - Array of keys.
+ * @param {(string[] | number[])} keys - Array of keys.
  * @param {*} [value] - Value to assign to each key.
- * @returns {Object} Object with keys mapped from array.
+ * @returns {Object<(string | number), *>} Object with keys mapped from array.
  *
  * @example
  * arrToKeys(['a', 'b'], 0);
@@ -592,9 +640,8 @@ function arrToKeys(keys, value) {
 
 /**
  * Checks if a value is a number or not.
- * @memberof juliutils
  * @param {*} value - Value to test.
- * @returns {Boolean} Whether the value is a number or not.
+ * @returns {boolean} Whether the value is a number or not.
  */
 function isNumber(value) {
     return Boolean(
@@ -606,15 +653,14 @@ function isNumber(value) {
 
 /**
  * Truncates a string with option to add trail at end.
- * @memberof juliutils
- * @param {String} str - String.
- * @param {Number} length - Length to trim to.
- * @param {String} [trail=''] - Trailing characters.
- * @returns {String} Truncated string.
+ * @param {string} str - String.
+ * @param {number} length - Length to trim to.
+ * @param {string} [trail=''] - Trailing characters.
+ * @returns {string} Truncated string.
  */
 function truncate(str, length, trail = '') {
     if (str.length > length) {
-        return str.substr(0, length).trim() + trail;
+        return str.substring(0, length).trim() + trail;
     }
     
     return str;
@@ -622,13 +668,12 @@ function truncate(str, length, trail = '') {
 
 /**
  * Chooses a form based on number.
- * @memberof juliutils
- * @param {String} singular - Singular form.
- * @param {String} plural - Plural form.
- * @param {Number} value - Test value.
- * @returns {String} Form based on value.
+ * @param {string} singular - Singular form.
+ * @param {string} plural - Plural form.
+ * @param {number} value - Test value.
+ * @returns {string} Form based on value.
  */
-function basicPlural(singular, plural, value) {
+function pluralize(singular, plural, value) {
     if (value !== 1) {
         return plural;
     }
@@ -637,8 +682,17 @@ function basicPlural(singular, plural, value) {
 }
 
 /**
+ * Chooses a form based on number.
+ * @param {string} singular - Singular form.
+ * @param {string} plural - Plural form.
+ * @param {number} value - Test value.
+ * @returns {string} Form based on value.
+ * @deprecated Since version 1.1.4 - Use `pluralize` instead.
+ */
+const basicPlural = pluralize;
+
+/**
  * Assigns values of object as keys.
- * @memberof juliutils
  * @param {Object} obj - Object.
  * @returns {Object} Object with values mapped as keys.
  *
@@ -659,9 +713,8 @@ function valuesAsKeys(obj) {
 
 /**
  * Escapes a cell value in CSV.
- * @memberof juliutils
- * @param {String} str - String.
- * @returns {String} Escaped string.
+ * @param {string} str - String.
+ * @returns {string} Escaped string.
  */
 function escapeCSV(str) {
     // quotes are replaced with double quotes to escape them
@@ -671,9 +724,8 @@ function escapeCSV(str) {
 
 /**
  * Escapes a string in RegExp.
- * @memberof juliutils
- * @param {String} str - String.
- * @returns {String} Escaped string.
+ * @param {string} str - String.
+ * @returns {string} Escaped string.
  */
 function escapeRegExp(str) {
     return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -681,12 +733,11 @@ function escapeRegExp(str) {
 
 /**
  * Escapes text to use as strings in HTML format.
- * @memberof juliutils
- * @param {String} text - Text to escape.
- * @returns {String} Escaped text.
+ * @param {string} text - Text to escape.
+ * @returns {string} Escaped text.
  */
 function escapeHTML(text) {
-    const pattern = /[\"&<>]/g;
+    const pattern = /["&<>]/g;
     
     // Testing string before replace is slightly faster
     // if you do not expect the strings to contain much HTML
@@ -706,10 +757,9 @@ function escapeHTML(text) {
 
 /**
  * Picks a number of items from an array at random.
- * @memberof juliutils
- * @param {Array} arr - Array to pick items from.
- * @param {Number} num - Number of items to take.
- * @returns {Array} N number of values taken from array at random.
+ * @param {*[]} arr - Array to pick items from.
+ * @param {number} num - Number of items to take.
+ * @returns {*[]} N number of values taken from array at random.
  *
  * @example
  * takeNRandom([1, 2, 3, 4, 5], 3);
@@ -720,8 +770,15 @@ function takeNRandom(arr, num) {
         return [];
     }
     
-    // faster when picking a lower amount of numbers from array
-    const getLow = (arr, num) => {
+    /**
+     * Picks a number of items from an array at random.
+     * 
+     * Faster when picking a lower amount of numbers from array.
+     * @param {*[]} arr - Array to pick items from.
+     * @param {number} num - Number of items to take.
+     * @returns {*[]} N number of values taken from array at random.
+     */
+    function getLow(arr, num) {
         let indices = [];
         
         while (
@@ -742,9 +799,17 @@ function takeNRandom(arr, num) {
         
         // map each index to the item in the array at each index
         return indices.map(index => arr[index]);
-    };
-    // faster when picking a larger amount of numbers from array
-    const getHigh = (arr, num) => {
+    }
+    
+    /**
+     * Picks a number of items from an array at random.
+     * 
+     * Faster when picking a larger amount of numbers from array.
+     * @param {*[]} arr - Array to pick items from.
+     * @param {number} num - Number of items to take.
+     * @returns {*[]} N number of values taken from array at random.
+     */
+    function getHigh(arr, num) {
         // create a clone of the array so we do not modify the original
         let clone = arr.slice(0);
         let result = [];
@@ -762,7 +827,7 @@ function takeNRandom(arr, num) {
         }
         
         return result;
-    };
+    }
     
     // pick which method to use based on what percent of numbers we want to take from the array
     // 25% is somewhat arbitrary
@@ -775,10 +840,9 @@ function takeNRandom(arr, num) {
 }
 
 /**
- * Executes a series of Promises in sequence.
- * @memberof juliutils
- * @param {Array} funcs - An array of functions where each function returns a Promise.
- * @returns {Promise<Array>} Promise that resolves with an array containing results from each resolved Promise in series.
+ * Executes a series of Promises in a series, where each Promise resolves before the next function is called.
+ * @param {(function(): Promise<*>)[]} funcs - An array of functions where each function returns a Promise.
+ * @returns {Promise<*[]>} Promise that resolves with an array containing results from each resolved Promise in series.
  * 
  * @example
  * const urls = ['/url1', '/url2', '/url3'];
@@ -790,22 +854,37 @@ async function promiseSeries(funcs) {
     // - all previous resolved values in passed to next resolve in series
     // - but there's a catch
     // https://stackoverflow.com/questions/24586110/resolve-promises-one-after-another-i-e-in-sequence/41115086#41115086
+    /**
+     * Concatenates an array to a list.
+     * @param {*[]} list - List to concatenate.
+     * @returns {function(*[]): *[]} Concatenated list.
+     */
     function concat(list) {
         return Array.prototype.concat.bind(list);
     }
     
+    /**
+     * Concatenates resolves from previous functions with resolves from current function.
+     * @param {function(): Promise<*>} func - Function that returns a Promise.
+     * @returns {function(*[]): Promise<*>} Function that returns a Promise.
+    */
     function promiseConcat(func) {
         // resolves is an array of values from each resolve
         return function(resolves) {
-            // pass resolves array to function
-            return func(resolves)
+            return func()
                 .then(concat(resolves))
                 .catch(error => Promise.reject(error));
         };
     }
     
-    function promiseReduce(chain, func) {
-        return chain
+    /**
+     * Reduces an array of functions that return Promises in series.
+     * @param {Promise<*>} accum - Accumulator Promise, this will add a value to the accumulator for each function in the series.
+     * @param {function(): Promise<*>} func - Function that returns a Promise.
+     * @returns {Promise<*[]>} Promise that resolves with the result of the last function in the series.
+     */
+    function promiseReduce(accum, func) {
+        return accum
             .then(promiseConcat(func))
             .catch(error => Promise.reject(error));
     }
@@ -815,8 +894,7 @@ async function promiseSeries(funcs) {
 
 /**
  * Delays a promise.
- * @memberof juliutils
- * @param {Number} time - Time in ms to delay.
+ * @param {number} time - Time in ms to delay.
  * @param {*} [value] - Value to pass to resolve.
  * @returns {Promise} Promise that resolves after the given delay.
  * @since 1.0.1 - The time parameter comes first.
@@ -831,35 +909,72 @@ async function delayPromise(time, value) {
 
 /**
  * Sleeps for a set amount of time.
- * @memberof juliutils
  * @param {number} [time] - Time in ms to delay.
  * @returns {Promise} Promise that resolves after the given delay.
  */
 async function sleep(time) {
     return new Promise((resolve) => {
-        setTimeout(resolve, time);
+        setTimeout(() => resolve(undefined), time);
     });
 }
 
 /**
  * Checks if A is equal to B.
- * @memberof juliutils
- * @param {*} a - Value A.
- * @param {*} b - Value B.
- * @returns {Boolean} Whether A is equal to B.
+ * @template T
+ * @param {T} a - Value A.
+ * @param {T} b - Value B.
+ * @returns {boolean} Whether A is equal to B.
  */
 function deepEqual(a, b) {
-    const isObject = (value) => {
+    /**
+     * Gets a list of property names of an object.
+     * @param {Object<string, *>} obj - Object to get properties from.
+     * @returns {string[]} Property names of object.
+     */
+    function getPropNames(obj) {
+        // these must be sorted since both arrays must be equal
+        return Object.getOwnPropertyNames(obj).sort();
+    }
+    
+    /**
+     * Checks if all values are the same in both objects.
+     * @param {Object<string, *>} a - Object A.
+     * @param {Object<string, *>} b - Object B.
+     * @param {any[]} props - Properties to check.
+     * @returns {boolean} Whether all values are the same in both objects.
+     */
+    function sameValues(a, b, props) {
+        for (let i = 0; i < props.length; i++) {
+            const key = props[i];
+            const valuesAreEqual = deepEqual(a[key], b[key]);
+            
+            if (!valuesAreEqual) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Checks if a value is an object.
+     * @param {*} value - Value to check.
+     * @returns {boolean} Whether the value is an object.
+     */
+    function isObject(value) {
         return Boolean(
+            // null has a typeof 'object' but is not an object
             value !== null &&
             typeof value === 'object'
         );
-    };
+    }
     
     // firstly we check the most primitive test
     if (a === b) {
         return true;
-    } else if (Array.isArray(a)) {
+    }
+    
+    if (Array.isArray(a)) {
         return Boolean(
             // b must also be an array
             Array.isArray(b) &&
@@ -871,7 +986,9 @@ function deepEqual(a, b) {
                 return deepEqual(value, b[i]);
             })
         );
-    } else if (a instanceof Date) {
+    }
+    
+    if (a instanceof Date) {
         // b isn't also a date
         if (!(b instanceof Date)) {
             return false;
@@ -879,39 +996,16 @@ function deepEqual(a, b) {
         
         // check timestamp equality
         return a.getTime() === b.getTime();
-    } else if (isObject(a)) {
+    }
+    
+    if (isObject(a)) {
         // b isn't also an object
         if (!isObject(b)) {
             return false;
         }
         
-        // helper function for getting property names
-        const getProps = (obj) => {
-            // these must be sorted since both arrays must be equal
-            return Object.getOwnPropertyNames(obj).sort();
-        };
-        const propsA = getProps(a);
-        const propsB = getProps(b);
-        // checks that all properties match
-        // I found this to be slightly faster than the array.every option
-        /*
-        propsA.every((key) => {
-           // matching values in each object
-           return deepEqual(a[key], b[key]);
-        })
-        */
-        const sameValues = (a, b, props) => {
-            for (let i = 0; i < props.length; i++) {
-                const key = props[i];
-                const valuesAreEqual = deepEqual(a[key], b[key]);
-                
-                if (!valuesAreEqual) {
-                    return false;
-                }
-            }
-            
-            return true;
-        };
+        const propsA = getPropNames(a);
+        const propsB = getPropNames(b);
         
         return Boolean(
             // the length of properties is the same in each array
@@ -929,27 +1023,27 @@ function deepEqual(a, b) {
 
 /**
  * Removes elements from an object or array by value.
- * @memberof juliutils
- * @param {(Object|Array)} item - Item to process. 
- * @param {(*)} value - Value or array of values to remove from item.
- * @returns {(Object|Array)} Object or array without the given values.
+ * @param {(Object | *[])} item - Item to process. 
+ * @param {(* | *[])} value - Value or array of values to remove from item.
+ * @returns {(Object | *[])} Object or array without the given values.
  * 
  * @example
- * without({ name: 'cat', color: 'orange' }, ['orange']);
- * // { name: 'cat' }
- *
+ * without({ name: 'cat', color: 'orange' }, ['orange']); // { name: 'cat' }
+ * 
  * @example
- * without(['cat', 'orange'], ['orange']);
- * // ['cat']
- *
+ * without(['cat', 'orange'], ['orange']); // ['cat']
+ * 
  * @example
  * // or using just a string
- * without(['cat', 'orange'], 'orange');
- * // ['cat']
+ * without(['cat', 'orange'], 'orange'); // ['cat']
  */
 function without(item, value) {
-    const valueIsArray =  Array.isArray(value);
-    const doesNotMatch = (element) => {
+    /**
+     * Checks if an element does not match the value.
+     * @param {*} element - Element to check.
+     * @returns {boolean} Whether the element does not match the value.
+     */
+    function doesNotMatch(element) {
         if (valueIsArray) {
             return !value.some((valueElement) => {
                 return deepEqual(element, valueElement);
@@ -957,26 +1051,39 @@ function without(item, value) {
         }
         
         return !deepEqual(element, value);
-    };
-    
-    if (Array.isArray(item)) {
-        return item.filter(doesNotMatch);
     }
     
-    const itemDoesNotHaveKey = (key) => {
+    /**
+     * Checks if an item does not have a key.
+     * @param {string} key - Key to check.
+     * @returns {boolean} Whether the item does not have the key.
+     */
+    function itemDoesNotHaveKey(key) {
         if (valueIsArray) {
             // key is not in array of values
             return value.indexOf(key) === -1;
         }
         
         return key !== value;
-    };
-    // takes values to remove from 'item' and adds them to a new object
-    const recomposeItem = (newItem, key) => {
+    }
+    
+    /**
+     * Takes values to remove from 'item' and adds them to a new object.
+     * @param {Object} newItem - New object to add values to.
+     * @param {string} key - Key to add to new object.
+     * @returns {Object} New object with values added.
+     */
+    function recomposeItem(newItem, key) {
         newItem[key] = item[key];
         
         return newItem;
-    };
+    }
+    
+    const valueIsArray =  Array.isArray(value);
+    
+    if (Array.isArray(item)) {
+        return item.filter(doesNotMatch);
+    }
     
     return Object
         .getOwnPropertyNames(item)
@@ -986,20 +1093,17 @@ function without(item, value) {
 
 /**
  * Shortens a sentence-like string without cutting off the final word.
- * @memberof juliutils
- * @param {String} str - String to shorten.
- * @param {Number} maxLength - Max length of string.
- * @param {(String|Regexp)} seperator - Word seperator. If a RegExp is given, words will be seperated by a space.
- * @returns {String} Shortened string.
+ * @param {string} str - String to shorten.
+ * @param {number} maxLength - Max length of string.
+ * @param {(string | RegExp)} seperator - Word seperator. If a RegExp is given, words will be seperated by a space.
+ * @returns {string} Shortened string.
  *
  * @example
- * shorten('that cat is fat', 8);
- * // 'that cat'
+ * shorten('that cat is fat', 8); // 'that cat'
  *
  * @example
  * // custom seperator
- * shorten('123x456x789', 8, 'x');
- * // '123x456'
+ * shorten('123x456x789', 8, 'x'); // '123x456'
  */
 function shorten(str, maxLength, seperator = ' ') {
     // string is already short enough
@@ -1039,14 +1143,12 @@ function shorten(str, maxLength, seperator = ' ') {
 
 /**
  * Rounds number to N decimal places.
- * @memberof juliutils
- * @param {Number} value - Value to round.
- * @param {Number} places - Places to round to.
- * @returns {Number} Rounded number.
+ * @param {number} value - Value to round.
+ * @param {number} places - Places to round to.
+ * @returns {number} Rounded number.
  *
  * @example
- * roundN(4.344, 1)
- * // 4.3
+ * roundN(4.344, 1); // 4.3
  */
 function roundN(value, places) {
     const multiplier = Math.pow(10, places);
@@ -1056,47 +1158,44 @@ function roundN(value, places) {
 
 /**
  * Gets the closest value to a given number in the array.
- * @memberof juliutils
- * @param {Array} arr - Array of anything. If comparing non-numbers, a key should be given.
- * @param {Number} num - Number to be closest to.
- * @param {(String|function)} key - Key or method to extract value from each item.
- * @returns {*} Closest value in array.
+ * @template T
+ * @param {T[]} arr - Array of anything. If comparing non-numbers, a key should be given.
+ * @param {number} num - Number to be closest to.
+ * @param {(string | function(T, number): number)} [key] - Key or method to extract value from each item.
+ * @returns {(T | undefined)} Closest value in array.
  *
  * @example
  * // gets the closest value in array to 6
- * closest([1, 5, 9], 6);
- * // 5
+ * closest([1, 5, 9], 6); // 5
  *
  * @example
- * // gets the city with the closest population to 11m
- * closest([
+ * // gets the city with the closest population to 11e5
+ * const cities = [
  *     {
  *         name: 'New York',
- *         population: 8.6
+ *         population: 86e5
  *     },
  *     {
  *         name: 'Tokyo',
- *         population: 13.8
+ *         population: 138e5
  *     },
  *     {
  *         name: 'Mumbai',
- *         population: 12.4
+ *         population: 124e5
  *     }
- * ], 11, 'population');
- * // { name: 'Mumbai', population: 12.4 }
+ * ];
+ * 
+ * closest(cities, 11e5, 'population'); // { name: 'Mumbai', population: 12.4 }
  */
 function closest(arr, num, key) {
     if (arr.length === 0) {
         return;
     }
     
-    // if 'key' is a function, set method to 'key'
-    const fn = typeof key === 'function' ? key : null;
-    const keyIsString = Boolean(typeof key === 'string');
-    const getValue =  (value, i) => {
-        if (fn) {
-            return fn(value, i);
-        } else if (keyIsString) {
+    const getValue =  (/** @type {T} */ value, /** @type {number} */ i) => {
+        if (typeof key === 'function') {
+            return key(value, i);
+        } else if (typeof key === 'string') {
             return value[key];
         }
         
@@ -1132,10 +1231,10 @@ function closest(arr, num, key) {
 
 /**
  * Sorts an array in a chain.
- * @memberof juliutils
- * @param {Array} arr - Array to sort.
- * @param {function[]} funcs - Array of functions
- * @returns {Array} Sorted array.
+ * @template T
+ * @param {T[]} arr - Array to sort.
+ * @param {(function(T, T): number)[]} funcs - Array of functions.
+ * @returns {T[]} Sorted array.
  *
  * @example
  * chainSort([1, 5, 9, 4, 2], [
@@ -1146,17 +1245,18 @@ function closest(arr, num, key) {
  * // [1, 2, 4, 5, 9]
  */
 function chainSort(arr, funcs) {
-    // use slice to preserve original array
-    return arr.slice(0).sort((a, b) => {
-        let value;
-        
-        funcs.find((func) => {
-            // assign new value, stop iterating when a truthy value has been found
-            return (value = func(a, b));
+    return arr
+        .slice(0) // use slice to preserve original array
+        .sort((a, b) => {
+            let value = 0;
+            
+            funcs.find((func) => {
+                // assign new value, stop iterating when a truthy value has been found
+                return (value = func(a, b));
+            });
+            
+            return value;
         });
-        
-        return value;
-    });
 }
 
 module.exports = {
@@ -1171,11 +1271,15 @@ module.exports = {
     uniq,
     difference,
     partition,
+    average,
+    arrAverage,
+    mean,
+    median,
     mode,
     groupBy,
     indexBy,
-    arrAverage,
     flatten,
+    shallowFlatten,
     compact,
     flattenCompact,
     range,
